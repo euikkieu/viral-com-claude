@@ -101,7 +101,17 @@
   .score span { font-weight: 800; font-size: 1rem; }
   .grass h2 { text-align: center; font-size: clamp(2rem, 5vw, 3.6rem); margin-bottom: 14px; }
   .grass .sub { text-align: center; font-weight: 700; font-size: 1.12rem; max-width: 36rem; margin: 0 auto 70px; opacity: .95; }
-  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; position: relative; }
+  .profile {
+    display: flex; align-items: center; gap: 14px; max-width: 560px; margin: 0 auto 56px;
+    background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 999px; padding: 8px 22px 8px 8px; box-shadow: 0 6px 0 var(--ink);
+  }
+  .row + .profile { margin-top: 90px; }
+  .profile img { flex: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 3px solid var(--ink); }
+  .profile div { flex: 1; line-height: 1.2; }
+  .profile b { display: block; font-weight: 900; font-size: 1.1rem; }
+  .profile span { font-weight: 700; color: var(--soft); font-size: .92rem; }
+  .profile em { flex: none; font-style: normal; font-family: "Bagel Fat One"; font-size: 1.15rem; background: var(--yellow); border: 3px solid var(--ink); border-radius: 999px; padding: 4px 12px; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 200px)); justify-content: center; gap: 20px; position: relative; }
   .row .phone { width: 100%; }
   .row .phone:nth-child(odd) { transform: rotate(-2deg); }
   .row .phone:nth-child(even) { transform: rotate(2deg) translateY(18px); }
@@ -199,7 +209,7 @@
   @media (max-width: 960px) {
     .cards { grid-template-columns: repeat(2, 1fr); }
     .night .wrap { grid-template-columns: 1fr; }
-    .row { grid-template-columns: repeat(3, 1fr); row-gap: 60px; }
+    .row { row-gap: 60px; }
     .talks { grid-template-columns: 1fr; }
     .phone { width: 160px; }
     .lineup .phone:nth-child(2) { width: 190px; }
@@ -219,7 +229,11 @@
     .board { grid-template-columns: 1fr; gap: 14px; }
     .row { grid-template-columns: repeat(2, 1fr); gap: 50px 18px; }
     .row .phone { width: 100%; }
-    .row .phone:last-child { grid-column: span 2; width: 50%; justify-self: center; }
+    .row .phone:nth-child(5) { grid-column: span 2; width: 50%; justify-self: center; }
+    .profile { padding-right: 12px; gap: 10px; }
+    .profile img { width: 46px; height: 46px; }
+    .profile b { font-size: 1rem; }
+    .profile em { font-size: .9rem; padding: 3px 9px; }
     .cards { grid-template-columns: 1fr; }
     .gets, .night, .who { padding: 80px 0; }
     .lock { font-size: 1rem; padding: 10px 14px; }
@@ -268,8 +282,8 @@
       </svg>
       <div class="lineup">
         <div class="phone"><span class="bubble">80,1 mil</span><img src="img/urso.jpg" alt="Vídeo do urso vendendo mel cru"></div>
-        <div class="phone"><span class="bubble hot">134 mil views!</span><img src="img/peru.jpg" alt="Vídeo do peru"></div>
-        <div class="phone"><span class="bubble">62,6 mil</span><img src="img/cachorra.jpg" alt="Vídeo da cachorra com crachá de segurança"></div>
+        <div class="phone"><span class="bubble hot">369,8 mil views!</span><img src="img/hist-urna.jpg" alt="Vídeo do Lula em cima da urna"></div>
+        <div class="phone"><span class="bubble">134 mil</span><img src="img/peru.jpg" alt="Vídeo do peru"></div>
       </div>
     </div>
   </section>
@@ -279,14 +293,31 @@
   <section class="grass">
     <div class="wrap">
       <div class="board">
-        <div class="score"><b>+340 mil</b><span>visualizações somadas</span></div>
-        <div class="score"><b>134 mil</b><span>no vídeo mais visto</span></div>
-        <div class="score"><b>5</b><span>vídeos da mesma série</span></div>
+        <div class="score"><b>+900 mil</b><span>visualizações somadas</span></div>
+        <div class="score"><b>369,8 mil</b><span>no vídeo mais visto</span></div>
+        <div class="score"><b>2</b><span>perfis, o mesmo jeito de fazer</span></div>
       </div>
 
-      <h2 class="cap">Esses bichos <span class="y">viralizaram</span></h2>
-      <p class="sub">Todos da série "Você é um Animal", do meu perfil. Nenhum foi desenhado à mão e nenhum passou por programa de edição.</p>
+      <h2 class="cap">Não é sorte de <span class="y">um perfil só</span></h2>
+      <p class="sub">Dois perfis meus, com temas diferentes. Nenhum vídeo foi desenhado à mão e nenhum passou por programa de edição.</p>
 
+      <div class="profile">
+        <img src="img/hist-urna.jpg" alt="">
+        <div><b>Perfil de histórias</b><span>políticos em desenho, na praça</span></div>
+        <em>+566 mil views</em>
+      </div>
+      <div class="row">
+        <div class="phone"><span class="bubble hot">369,8 mil</span><img src="img/hist-urna.jpg" alt="Vídeo do Lula em cima da urna" loading="lazy"></div>
+        <div class="phone"><span class="bubble">134,2 mil</span><img src="img/hist-urna2.jpg" alt="Vídeo do Vorcaro com a urna" loading="lazy"></div>
+        <div class="phone"><span class="bubble">41,4 mil</span><img src="img/hist-moto.jpg" alt="Vídeo do Vorcaro empinando a moto" loading="lazy"></div>
+        <div class="phone"><span class="bubble">9.370</span><img src="img/hist-mercado.jpg" alt="Vídeo do Lula no mercado" loading="lazy"></div>
+      </div>
+
+      <div class="profile">
+        <img src="img/papagaio.jpg" alt="">
+        <div><b>Você é um Animal</b><span>bichos que falam</span></div>
+        <em>+340 mil views</em>
+      </div>
       <div class="row">
         <div class="phone"><span class="bubble hot">134 mil</span><img src="img/peru.jpg" alt="Vídeo do peru" loading="lazy"></div>
         <div class="phone"><span class="bubble">80,1 mil</span><img src="img/urso.jpg" alt="Vídeo do urso e o mel cru" loading="lazy"></div>
@@ -294,7 +325,7 @@
         <div class="phone"><span class="bubble">61,7 mil</span><img src="img/perereca.jpg" alt="Vídeo da perereca" loading="lazy"></div>
         <div class="phone"><span class="bubble">acabou de sair</span><img src="img/papagaio.jpg" alt="Vídeo do papagaio" loading="lazy"></div>
       </div>
-      <p class="note-real">Números reais do perfil, contados em 30/10/2026.</p>
+      <p class="note-real">Números reais dos perfis, contados em 30/10/2026.</p>
     </div>
   </section>
 
