@@ -99,6 +99,10 @@
   .score { background: var(--grass-3); border: 4px solid var(--ink); border-radius: 24px; padding: 22px; text-align: center; box-shadow: 0 7px 0 var(--ink); }
   .score b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1; color: var(--yellow); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; }
   .score span { font-weight: 800; font-size: 1rem; }
+  .proof-shot { display: grid; grid-template-columns: 300px 1fr; gap: 26px; align-items: center; max-width: 760px; margin: -30px auto 80px; background: var(--grass-3); border: 4px solid var(--ink); border-radius: 26px; padding: 18px; box-shadow: 0 7px 0 var(--ink); }
+  .proof-shot img { width: 100%; border-radius: 16px; border: 3px solid var(--ink); transform: rotate(-2deg); }
+  .proof-shot figcaption { font-weight: 700; font-size: 1.05rem; }
+  .proof-shot b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.6rem; color: var(--yellow); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; margin-bottom: 6px; }
   .grass h2 { text-align: center; font-size: clamp(2rem, 5vw, 3.6rem); margin-bottom: 14px; }
   .grass .sub { text-align: center; font-weight: 700; font-size: 1.12rem; max-width: 36rem; margin: 0 auto 70px; opacity: .95; }
   .profile {
@@ -240,6 +244,8 @@
     .lineup .phone:nth-child(2) { width: 132px; }
     .bubble { font-size: .85rem; padding: 4px 9px; top: -26px; border-width: 2px; }
     .board { grid-template-columns: 1fr; gap: 14px; }
+    .proof-shot { grid-template-columns: 1fr; margin-top: -40px; text-align: center; }
+    .proof-shot img { max-width: 280px; margin-inline: auto; }
     .row { grid-template-columns: repeat(2, 1fr); gap: 50px 18px; }
     .row .phone { width: 100%; }
     .row .phone:nth-child(5) { grid-column: span 2; width: 50%; justify-self: center; }
@@ -306,10 +312,15 @@
   <section class="grass">
     <div class="wrap">
       <div class="board">
-        <div class="score"><b>+900 mil</b><span>visualizações somadas</span></div>
-        <div class="score"><b>369,8 mil</b><span>no vídeo mais visto</span></div>
+        <div class="score"><b>+30 milhões</b><span>de visualizações em 90 dias</span></div>
+        <div class="score"><b>1,3 milhão</b><span>de views num dia só</span></div>
         <div class="score"><b>2</b><span>perfis, o mesmo jeito de fazer</span></div>
       </div>
+
+      <figure class="proof-shot">
+        <img src="img/painel-90d.jpg" alt="Painel de visualizações dos últimos 90 dias: 30.264.422 visualizações" loading="lazy">
+        <figcaption><b>Print do meu painel</b>30.264.422 visualizações nos últimos 90 dias, contadas até 31/10/2026.</figcaption>
+      </figure>
 
       <h2 class="cap">Não é sorte de <span class="y">um perfil só</span></h2>
       <p class="sub">Dois perfis meus, com temas diferentes. Nenhum vídeo foi desenhado à mão e nenhum passou por programa de edição.</p>
@@ -338,7 +349,7 @@
         <div class="phone"><span class="bubble">61,7 mil</span><img src="img/perereca.jpg" alt="Vídeo da perereca" loading="lazy"></div>
         <div class="phone"><span class="bubble">acabou de sair</span><img src="img/papagaio.jpg" alt="Vídeo do papagaio" loading="lazy"></div>
       </div>
-      <p class="note-real">Números reais dos perfis, contados em 30/10/2026.</p>
+      <p class="note-real">Views de cada vídeo contadas no TikTok em 30/10/2026. O total de 90 dias vem do painel acima.</p>
     </div>
   </section>
 
