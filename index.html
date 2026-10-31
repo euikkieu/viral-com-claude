@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viral com Claude</title>
+<meta name="description" content="Curso de vídeos animados com IA: refaça o que já viralizou e viralize de novo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-1: #7cc8ff;
+    --sky-2: #cdeeff;
+    --grass-1: #74c94f;
+    --grass-2: #5aae3a;
+    --grass-3: #47922c;
+    --night: #121c46;
+    --ink: #1f1a17;
+    --soft: #4d5566;
+    --yellow: #ffc93c;
+    --orange: #ff8a3d;
+    --pink: #ff6fa5;
+    --white: #ffffff;
+    --cloud: #f4fbff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Outfit", system-ui, sans-serif; color: var(--ink); background: var(--cloud); line-height: 1.5; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+  /* Letra de legenda: branca, contorno grosso, palavra destacada */
+  .cap {
+    font-family: "Bagel Fat One", sans-serif; font-weight: 400; line-height: 1.05; text-transform: uppercase;
+    color: var(--white); -webkit-text-stroke: 6px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 var(--ink);
+  }
+  .cap .y { color: var(--yellow); }
+  .cap .o { color: var(--orange); }
+  .cap .p { color: var(--pink); }
+  .title { font-family: "Bagel Fat One", sans-serif; font-weight: 400; line-height: 1.08; font-size: clamp(2rem, 4.6vw, 3.2rem); }
+  .kicker { display: inline-block; font-weight: 900; font-size: .85rem; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: var(--ink); color: var(--white); margin-bottom: 16px; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none;
+    font-family: "Bagel Fat One"; font-size: 1.3rem; color: var(--ink); background: var(--yellow);
+    padding: 18px 32px; border-radius: 999px; border: 4px solid var(--ink); box-shadow: 0 7px 0 var(--ink);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 0 var(--ink); }
+  .btn:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--ink); }
+  .btn:focus-visible, summary:focus-visible { outline: 3px solid #2f6bff; outline-offset: 4px; }
+  .btn .tagp { background: var(--ink); color: var(--yellow); font-size: .95rem; padding: 4px 12px; border-radius: 999px; font-family: "Outfit"; font-weight: 900; }
+  .btn-sm { font-size: .95rem; padding: 9px 18px; border-width: 3px; box-shadow: 0 4px 0 var(--ink); }
+  .secure { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; font-weight: 700; font-size: .92rem; color: var(--soft); }
+
+  /* ===== Céu do topo ===== */
+  .sky { position: relative; background: linear-gradient(180deg, var(--sky-1), var(--sky-2) 78%); overflow: hidden; }
+  .sun { position: absolute; top: 70px; right: 8%; width: 130px; height: 130px; border-radius: 50%; background: #ffe27a; box-shadow: 0 0 0 22px rgba(255,226,122,.35), 0 0 0 48px rgba(255,226,122,.15); }
+  .cloud { position: absolute; height: 46px; background: var(--white); border-radius: 999px; opacity: .95; animation: drift linear infinite; }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: var(--white); border-radius: 50%; }
+  .cloud::before { width: 56%; height: 150%; left: 14%; bottom: 30%; }
+  .cloud::after { width: 38%; height: 120%; right: 12%; bottom: 36%; }
+  .c1 { width: 170px; top: 120px; left: -200px; animation-duration: 70s; }
+  .c2 { width: 120px; top: 230px; left: -200px; animation-duration: 95s; animation-delay: -40s; }
+  .c3 { width: 210px; top: 60px; left: -260px; animation-duration: 120s; animation-delay: -75s; }
+  @keyframes drift { to { transform: translateX(calc(100vw + 300px)); } }
+
+  header { position: relative; z-index: 3; padding: 18px 0; }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; background: var(--white); border: 3px solid var(--ink); border-radius: 999px; padding: 5px 16px 5px 5px; font-weight: 900; text-decoration: none; color: var(--ink); box-shadow: 0 4px 0 var(--ink); }
+  .brand img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: 50% 42%; }
+
+  .hero { position: relative; z-index: 2; text-align: center; padding: 40px 0 0; }
+  .hero h1 { font-size: clamp(2.6rem, 7.6vw, 6rem); margin-bottom: 22px; }
+  .hero .lead { font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 600; max-width: 38rem; margin: 0 auto 32px; }
+  .hero .lead b { font-weight: 900; }
+
+  .stage { position: relative; height: 470px; margin-top: 46px; }
+  .hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 230px; }
+  .lineup { position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%); display: flex; align-items: flex-end; gap: 22px; z-index: 2; }
+  .phone { position: relative; width: 190px; aspect-ratio: 9 / 15; background: var(--ink); border-radius: 30px; padding: 7px; box-shadow: 0 18px 30px rgba(20,60,20,.3); }
+  .phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
+  .lineup .phone:nth-child(1) { transform: rotate(-6deg) translateY(10px); }
+  .lineup .phone:nth-child(2) { width: 220px; }
+  .lineup .phone:nth-child(3) { transform: rotate(6deg) translateY(10px); }
+  .bubble {
+    position: absolute; top: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap; z-index: 2;
+    background: var(--white); border: 3px solid var(--ink); border-radius: 16px; padding: 6px 14px;
+    font-family: "Bagel Fat One"; font-size: 1.15rem; box-shadow: 0 4px 0 var(--ink);
+  }
+  .bubble::after { content: ""; position: absolute; left: 50%; bottom: -11px; width: 16px; height: 16px; background: var(--white); border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transform: translateX(-50%) rotate(45deg); }
+  .bubble.hot { background: var(--yellow); }
+  .bubble.hot::after { background: var(--yellow); }
+
+  /* ===== Grama: os números ===== */
+  .grass { background: var(--grass-2); color: var(--white); padding: 20px 0 100px; position: relative; }
+  .board { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 70px; }
+  .score { background: var(--grass-3); border: 4px solid var(--ink); border-radius: 24px; padding: 22px; text-align: center; box-shadow: 0 7px 0 var(--ink); }
+  .score b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1; color: var(--yellow); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; }
+  .score span { font-weight: 800; font-size: 1rem; }
+  .grass h2 { text-align: center; font-size: clamp(2rem, 5vw, 3.6rem); margin-bottom: 14px; }
+  .grass .sub { text-align: center; font-weight: 700; font-size: 1.12rem; max-width: 36rem; margin: 0 auto 70px; opacity: .95; }
+  .row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; position: relative; }
+  .row .phone { width: 100%; }
+  .row .phone:nth-child(odd) { transform: rotate(-2deg); }
+  .row .phone:nth-child(even) { transform: rotate(2deg) translateY(18px); }
+  .row .bubble { font-size: 1rem; color: var(--ink); }
+  .note-real { text-align: center; font-weight: 700; font-size: .9rem; margin-top: 54px; opacity: .85; }
+
+  /* ===== O que você vai conseguir ===== */
+  .gets { padding: 110px 0; background: var(--cloud); }
+  .gets .head { text-align: center; margin-bottom: 50px; }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .card { background: var(--white); border: 4px solid var(--ink); border-radius: 26px; padding: 26px 22px; box-shadow: 0 7px 0 var(--ink); }
+  .card .ico { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; border: 3px solid var(--ink); margin-bottom: 16px; }
+  .card .ico img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
+  .card h3 { font-size: 1.22rem; font-weight: 900; line-height: 1.2; margin-bottom: 6px; }
+  .card p { color: var(--soft); font-weight: 600; }
+  .card:nth-child(1) { background: #fff4d1; }
+  .card:nth-child(2) { background: #e3f7d8; }
+  .card:nth-child(3) { background: #ffe4ef; }
+  .card:nth-child(4) { background: #e1f0ff; }
+
+  /* ===== O segredo (noite) ===== */
+  .night { position: relative; background: var(--night); color: var(--white); padding: 110px 0; overflow: hidden; }
+  .night::before { content: ""; position: absolute; inset: 0; background:
+      radial-gradient(2px 2px at 10% 20%, #fff, transparent), radial-gradient(2px 2px at 30% 70%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 55% 15%, #fff, transparent), radial-gradient(2px 2px at 75% 55%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 90% 25%, #fff, transparent), radial-gradient(1.5px 1.5px at 20% 90%, #fff, transparent),
+      radial-gradient(2px 2px at 65% 85%, #fff, transparent), radial-gradient(1.5px 1.5px at 45% 45%, #fff, transparent);
+    opacity: .7; }
+  .moon { position: absolute; top: 60px; right: 9%; width: 90px; height: 90px; border-radius: 50%; box-shadow: -18px 10px 0 0 #ffe9a6; }
+  .night .wrap { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .night h2 { font-size: clamp(2.2rem, 5vw, 3.8rem); margin-bottom: 20px; }
+  .night p { font-size: 1.15rem; font-weight: 600; opacity: .9; max-width: 30rem; }
+  .vault { position: relative; background: #1d2a63; border: 4px solid var(--ink); border-radius: 28px; padding: 28px; box-shadow: 0 9px 0 #070b1f; }
+  .vault .line { height: 16px; border-radius: 8px; background: rgba(255,255,255,.22); margin-bottom: 14px; filter: blur(3px); }
+  .vault .line:nth-child(2) { width: 82%; } .vault .line:nth-child(3) { width: 94%; } .vault .line:nth-child(4) { width: 60%; }
+  .vault .line:nth-child(5) { width: 88%; } .vault .line:nth-child(6) { width: 70%; } .vault .line:nth-child(7) { width: 50%; }
+  .vault .tab { display: flex; gap: 8px; margin-bottom: 22px; }
+  .vault .tab i { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,.25); }
+  .lock {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-4deg);
+    background: var(--yellow); color: var(--ink); border: 4px solid var(--ink); border-radius: 20px; padding: 14px 22px;
+    display: flex; align-items: center; gap: 12px; font-family: "Bagel Fat One"; font-size: 1.25rem; box-shadow: 0 6px 0 var(--ink); white-space: nowrap;
+  }
+  .lock svg { width: 30px; height: 30px; }
+
+  /* ===== É pra você ===== */
+  .who { padding: 110px 0; background: linear-gradient(180deg, var(--sky-2), var(--cloud)); }
+  .who .head { text-align: center; margin-bottom: 46px; }
+  .talks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 30px; max-width: 920px; margin-inline: auto; }
+  .talk { display: flex; align-items: flex-end; gap: 12px; }
+  .talk img { flex: none; width: 66px; height: 66px; border-radius: 50%; object-fit: cover; object-position: 50% 42%; border: 3px solid var(--ink); background: var(--white); }
+  .talk p { position: relative; background: var(--white); border: 3px solid var(--ink); border-radius: 22px 22px 22px 6px; padding: 14px 18px; font-weight: 800; font-size: 1.05rem; box-shadow: 0 5px 0 var(--ink); }
+
+  /* ===== Crachá do preço ===== */
+  .price-zone { padding: 40px 0 120px; background: var(--cloud); text-align: center; }
+  .lanyard { width: 34px; height: 110px; margin: 0 auto; background: repeating-linear-gradient(180deg, var(--orange) 0 18px, #e5732a 18px 36px); border-inline: 3px solid var(--ink); }
+  .badge {
+    position: relative; max-width: 440px; margin: -6px auto 0; background: var(--white); border: 5px solid var(--ink); border-radius: 28px;
+    overflow: hidden; box-shadow: 0 12px 0 var(--ink); transform: rotate(-1.5deg);
+  }
+  .badge::before { content: ""; position: absolute; top: 14px; left: 50%; width: 70px; height: 14px; transform: translateX(-50%); border-radius: 999px; background: var(--cloud); border: 3px solid var(--ink); }
+  .badge-top { background: #e5483b; color: var(--white); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; padding: 46px 20px 14px; font-size: .95rem; }
+  .badge-body { padding: 26px 26px 34px; }
+  .badge-body .who-is { font-family: "Bagel Fat One"; font-size: 1.6rem; line-height: 1.1; margin-bottom: 6px; }
+  .badge-body .small { font-weight: 700; color: var(--soft); margin-bottom: 18px; }
+  .money { display: flex; justify-content: center; align-items: flex-start; gap: 6px; margin-bottom: 26px; }
+  .money small { font-family: "Bagel Fat One"; font-size: 1.8rem; margin-top: 14px; }
+  .money b { font-family: "Bagel Fat One"; font-weight: 400; font-size: clamp(4.4rem, 14vw, 6.4rem); line-height: 1; color: var(--yellow); -webkit-text-stroke: 6px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 var(--ink); }
+  .badge .btn { width: 100%; }
+  .badge-foot { font-weight: 700; color: var(--soft); font-size: .9rem; margin-top: 16px; }
+
+  /* ===== Dúvidas em conversa ===== */
+  .faq-zone { padding: 40px 0 110px; background: var(--cloud); }
+  .faq-zone .head { text-align: center; margin-bottom: 40px; }
+  .chat { max-width: 760px; margin-inline: auto; display: grid; gap: 16px; }
+  details summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary img { flex: none; width: 46px; height: 46px; border-radius: 50%; object-fit: cover; object-position: 50% 42%; border: 3px solid var(--ink); }
+  details summary span { background: var(--white); border: 3px solid var(--ink); border-radius: 20px 20px 20px 6px; padding: 12px 18px; font-weight: 900; font-size: 1.06rem; box-shadow: 0 4px 0 var(--ink); }
+  details summary span::after { content: " ▾"; color: var(--orange); }
+  details[open] summary span::after { content: " ▴"; }
+  details .ans { display: flex; justify-content: flex-end; margin-top: 12px; }
+  details .ans p { max-width: 520px; background: var(--yellow); border: 3px solid var(--ink); border-radius: 20px 20px 6px 20px; padding: 12px 18px; font-weight: 700; box-shadow: 0 4px 0 var(--ink); }
+
+  /* ===== Fim de tarde ===== */
+  .sunset { position: relative; background: linear-gradient(180deg, #ffd27a, #ff9a5a); text-align: center; padding: 110px 0 230px; overflow: hidden; }
+  .sunset .sun2 { position: absolute; left: 50%; bottom: 20px; width: 260px; height: 260px; transform: translateX(-50%); border-radius: 50%; background: #fff0b8; opacity: .8; }
+  .sunset .wrap { position: relative; z-index: 2; }
+  .sunset h2 { font-size: clamp(2.3rem, 6vw, 4.6rem); margin-bottom: 18px; }
+  .sunset p { font-weight: 800; font-size: 1.2rem; margin-bottom: 30px; }
+  .sunset .secure { color: var(--ink); }
+  .sunset .hills { height: 200px; z-index: 1; }
+  footer { background: var(--grass-3); color: var(--white); text-align: center; padding: 26px 0 34px; font-weight: 700; font-size: .92rem; }
+
+  @media (max-width: 960px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .night .wrap { grid-template-columns: 1fr; }
+    .row { grid-template-columns: repeat(3, 1fr); row-gap: 60px; }
+    .talks { grid-template-columns: 1fr; }
+    .phone { width: 160px; }
+    .lineup .phone:nth-child(2) { width: 190px; }
+  }
+  @media (max-width: 560px) {
+    .cap { -webkit-text-stroke: 5px var(--ink); text-shadow: 0 4px 0 var(--ink); }
+    .brand-cta { display: none; }
+    .sun { width: 80px; height: 80px; top: 80px; right: 4%; }
+    .hero { padding-top: 20px; }
+    .stage { height: 360px; margin-top: 50px; }
+    .hills { height: 170px; }
+    .lineup { gap: 8px; bottom: 44px; }
+    .phone { width: 110px; border-radius: 20px; padding: 5px; }
+    .phone img { border-radius: 16px; }
+    .lineup .phone:nth-child(2) { width: 132px; }
+    .bubble { font-size: .85rem; padding: 4px 9px; top: -26px; border-width: 2px; }
+    .board { grid-template-columns: 1fr; gap: 14px; }
+    .row { grid-template-columns: repeat(2, 1fr); gap: 50px 18px; }
+    .row .phone { width: 100%; }
+    .row .phone:last-child { grid-column: span 2; width: 50%; justify-self: center; }
+    .cards { grid-template-columns: 1fr; }
+    .gets, .night, .who { padding: 80px 0; }
+    .lock { font-size: 1rem; padding: 10px 14px; }
+    .btn { width: 100%; font-size: 1.15rem; padding: 16px 18px; }
+    .sunset { padding: 80px 0 190px; }
+    .sunset .sun2 { width: 180px; height: 180px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cloud { animation: none; }
+    .c1 { left: 6%; } .c2 { left: 60%; } .c3 { left: 30%; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="cloud c1" aria-hidden="true"></div>
+  <div class="cloud c2" aria-hidden="true"></div>
+  <div class="cloud c3" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap">
+      <a class="brand" href="#"><img src="img/papagaio.jpg" alt="">Viral com Claude</a>
+      <a class="btn btn-sm brand-cta" href="#" data-hotmart>Entrar por R$&nbsp;19,90</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="cap">Refaça o <span class="y">viral</span>.<br>Viralize <span class="o">de novo</span>.</h1>
+      <p class="lead">Vídeos animados em 2D e 3D feitos com <b>Claude Code e IA</b>, sem saber desenhar e sem passar a noite editando.</p>
+      <a class="btn" href="#" data-hotmart>Quero aprender <span class="tagp">R$&nbsp;19,90</span></a>
+      <div class="secure">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        Pagamento seguro pela Hotmart
+      </div>
+    </div>
+
+    <div class="stage">
+      <svg class="hills" viewBox="0 0 1440 230" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 120 C 220 40 420 60 620 110 C 820 160 1040 40 1240 70 C 1340 85 1400 100 1440 110 V230 H0 Z" fill="#8fd66a"/>
+        <path d="M0 170 C 260 110 520 130 760 160 C 1000 190 1220 120 1440 140 V230 H0 Z" fill="#74c94f"/>
+        <path d="M0 210 C 360 185 1080 185 1440 210 V230 H0 Z" fill="#5aae3a"/>
+      </svg>
+      <div class="lineup">
+        <div class="phone"><span class="bubble">80,1 mil</span><img src="img/urso.jpg" alt="Vídeo do urso vendendo mel cru"></div>
+        <div class="phone"><span class="bubble hot">134 mil views!</span><img src="img/peru.jpg" alt="Vídeo do peru"></div>
+        <div class="phone"><span class="bubble">62,6 mil</span><img src="img/cachorra.jpg" alt="Vídeo da cachorra com crachá de segurança"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<main>
+  <section class="grass">
+    <div class="wrap">
+      <div class="board">
+        <div class="score"><b>+340 mil</b><span>visualizações somadas</span></div>
+        <div class="score"><b>134 mil</b><span>no vídeo mais visto</span></div>
+        <div class="score"><b>5</b><span>vídeos da mesma série</span></div>
+      </div>
+
+      <h2 class="cap">Esses bichos <span class="y">viralizaram</span></h2>
+      <p class="sub">Todos da série "Você é um Animal", do meu perfil. Nenhum foi desenhado à mão e nenhum passou por programa de edição.</p>
+
+      <div class="row">
+        <div class="phone"><span class="bubble hot">134 mil</span><img src="img/peru.jpg" alt="Vídeo do peru" loading="lazy"></div>
+        <div class="phone"><span class="bubble">80,1 mil</span><img src="img/urso.jpg" alt="Vídeo do urso e o mel cru" loading="lazy"></div>
+        <div class="phone"><span class="bubble">62,6 mil</span><img src="img/cachorra.jpg" alt="Vídeo da cachorra segurança" loading="lazy"></div>
+        <div class="phone"><span class="bubble">61,7 mil</span><img src="img/perereca.jpg" alt="Vídeo da perereca" loading="lazy"></div>
+        <div class="phone"><span class="bubble">acabou de sair</span><img src="img/papagaio.jpg" alt="Vídeo do papagaio" loading="lazy"></div>
+      </div>
+      <p class="note-real">Números reais do perfil, contados em 30/10/2026.</p>
+    </div>
+  </section>
+
+  <section class="gets">
+    <div class="wrap">
+      <div class="head">
+        <span class="kicker">Depois do curso</span>
+        <h2 class="title">O que você vai conseguir fazer</h2>
+      </div>
+      <div class="cards">
+        <div class="card"><div class="ico"><img src="img/urso.jpg" alt=""></div><h3>Seu próprio personagem</h3><p>Um bicho, uma pessoa, o que quiser, animado e com voz.</p></div>
+        <div class="card"><div class="ico"><img src="img/perereca.jpg" alt=""></div><h3>Vídeo completo, do zero</h3><p>Cena, câmera, legenda e som, sem abrir timeline.</p></div>
+        <div class="card"><div class="ico"><img src="img/cachorra.jpg" alt=""></div><h3>Formato que já provou que funciona</h3><p>Você parte do que já viralizou, não de um palpite.</p></div>
+        <div class="card"><div class="ico"><img src="img/peru.jpg" alt=""></div><h3>Postar todo dia</h3><p>Um vídeo novo sem gastar a noite inteira editando.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="night">
+    <div class="moon" aria-hidden="true"></div>
+    <div class="wrap">
+      <div>
+        <span class="kicker" style="background:var(--yellow);color:var(--ink)">O segredo</span>
+        <h2 class="cap">O passo a passo <span class="y">não tá aqui</span>.</h2>
+        <p>Como eu escolho o vídeo, o que eu peço pra IA e por que funciona fica dentro do curso. Aqui você só vê o resultado.</p>
+      </div>
+      <div class="vault" aria-label="Conteúdo bloqueado">
+        <div class="tab"><i></i><i></i><i></i></div>
+        <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
+        <div class="lock">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          Só pra quem entrar
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="who">
+    <div class="wrap">
+      <div class="head">
+        <span class="kicker">Pra quem é</span>
+        <h2 class="title">É pra você se...</h2>
+      </div>
+      <div class="talks">
+        <div class="talk"><img src="img/perereca.jpg" alt=""><p>Quer um canal de animação, mas não sabe desenhar.</p></div>
+        <div class="talk"><img src="img/urso.jpg" alt=""><p>Já tentou editar e desistiu porque demora demais.</p></div>
+        <div class="talk"><img src="img/cachorra.jpg" alt=""><p>Quer postar todo dia sem virar a noite.</p></div>
+        <div class="talk"><img src="img/peru.jpg" alt=""><p>Tem curiosidade sobre IA e quer usar de verdade.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="price-zone" id="preco">
+    <div class="wrap">
+      <div class="lanyard" aria-hidden="true"></div>
+      <div class="badge">
+        <div class="badge-top">Crachá de aluno</div>
+        <div class="badge-body">
+          <div class="who-is">Viral com Claude</div>
+          <div class="small">Curso completo · pagamento único</div>
+          <div class="money"><small>R$</small><b>19,90</b></div>
+          <a class="btn" href="#" data-hotmart>Pegar meu crachá</a>
+          <div class="badge-foot">Pix ou cartão pela Hotmart · 7 dias de garantia</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-zone">
+    <div class="wrap">
+      <div class="head">
+        <span class="kicker">Dúvidas</span>
+        <h2 class="title">Os bichos perguntaram</h2>
+      </div>
+      <div class="chat">
+        <details>
+          <summary><img src="img/perereca.jpg" alt=""><span>Precisa pagar IA?</span></summary>
+          <div class="ans"><p>Sim. O Claude Code funciona com um plano pago do Claude. No curso eu mostro qual escolher.</p></div>
+        </details>
+        <details>
+          <summary><img src="img/urso.jpg" alt=""><span>Precisa saber programar?</span></summary>
+          <div class="ans"><p>Não. Você escreve em português e eu mostro cada passo na tela.</p></div>
+        </details>
+        <details>
+          <summary><img src="img/cachorra.jpg" alt=""><span>Dá pra fazer pelo celular?</span></summary>
+          <div class="ans"><p>Não. O vídeo é feito no computador (Mac ou Windows). O celular é só pra postar.</p></div>
+        </details>
+        <details>
+          <summary><img src="img/peru.jpg" alt=""><span>Como recebo o acesso?</span></summary>
+          <div class="ans"><p>Logo depois do pagamento a Hotmart manda o acesso pro seu e-mail.</p></div>
+        </details>
+        <details>
+          <summary><img src="img/papagaio.jpg" alt=""><span>E se eu não gostar?</span></summary>
+          <div class="ans"><p>Você tem 7 dias de garantia e pede o reembolso direto na Hotmart.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sunset">
+    <div class="sun2" aria-hidden="true"></div>
+    <div class="wrap">
+      <h2 class="cap">Seu bicho pode ser <span class="p">o&nbsp;próximo</span>.</h2>
+      <p>Entra hoje e faz o seu primeiro vídeo.</p>
+      <a class="btn" href="#" data-hotmart>Quero entrar <span class="tagp">R$&nbsp;19,90</span></a>
+      <div class="secure">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        Acesso na hora · 7 dias de garantia
+      </div>
+    </div>
+    <svg class="hills" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 90 C 240 20 480 40 720 90 C 960 140 1200 30 1440 70 V200 H0 Z" fill="#5aae3a"/>
+      <path d="M0 150 C 360 110 1080 110 1440 150 V200 H0 Z" fill="#47922c"/>
+    </svg>
+  </section>
+</main>
+
+<footer>Viral com Claude · da série Você é um Animal</footer>
+
+<script>
+  // Cole aqui o link de pagamento da Hotmart: todos os botões usam ele
+  const HOTMART = "https://pay.hotmart.com/SEU-LINK-AQUI";
+  document.querySelectorAll("[data-hotmart]").forEach(a => { a.href = HOTMART; a.target = "_blank"; a.rel = "noopener"; });
+</script>
+</body>
+</html>
