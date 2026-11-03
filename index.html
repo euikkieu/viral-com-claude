@@ -10,24 +10,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --sky-1: #7cc8ff;
-    --sky-2: #cdeeff;
-    --grass-1: #74c94f;
-    --grass-2: #5aae3a;
-    --grass-3: #47922c;
-    --night: #121c46;
+    --bg: #0c0f24;
+    --bg-2: #10143a;
+    --panel: #151b40;
+    --panel-2: #1a2050;
+    --line: #2c356e;
+    --muted: #aeb6e8;
+    --text: #eef0ff;
     --ink: #1f1a17;
     --soft: #4d5566;
     --yellow: #ffc93c;
     --orange: #ff8a3d;
+    --green: #74c94f;
     --pink: #ff6fa5;
+    --red: #e5483b;
     --white: #ffffff;
-    --cloud: #f4fbff;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: "Outfit", system-ui, sans-serif; color: var(--ink); background: var(--cloud); line-height: 1.5; overflow-x: hidden; }
-  img { display: block; max-width: 100%; }
+  body { font-family: "Outfit", system-ui, sans-serif; color: var(--text); background: var(--bg); line-height: 1.5; overflow-x: hidden; }
+  img, video { display: block; max-width: 100%; }
   .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
 
   /* Letra de legenda: branca, contorno grosso, palavra destacada */
@@ -38,8 +41,7 @@
   .cap .y { color: var(--yellow); }
   .cap .o { color: var(--orange); }
   .cap .p { color: var(--pink); }
-  .title { font-family: "Bagel Fat One", sans-serif; font-weight: 400; line-height: 1.08; font-size: clamp(2rem, 4.6vw, 3.2rem); }
-  .kicker { display: inline-block; font-weight: 900; font-size: .85rem; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: var(--ink); color: var(--white); margin-bottom: 16px; }
+  .kicker { display: inline-block; font-weight: 900; font-size: .8rem; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; background: var(--ink); color: var(--white); margin-bottom: 16px; }
 
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 12px; text-decoration: none;
@@ -49,18 +51,28 @@
   }
   .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 0 var(--ink); }
   .btn:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--ink); }
-  .btn:focus-visible, summary:focus-visible { outline: 3px solid #2f6bff; outline-offset: 4px; }
+  .btn:focus-visible, summary:focus-visible, .key:focus-visible, .lock:focus-visible { outline: 3px solid #4f8bff; outline-offset: 4px; }
   .btn .tagp { background: var(--ink); color: var(--yellow); font-size: .95rem; padding: 4px 12px; border-radius: 999px; font-family: "Outfit"; font-weight: 900; }
-  .btn-sm { font-size: .95rem; padding: 9px 18px; border-width: 3px; box-shadow: 0 4px 0 var(--ink); }
-  .secure { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; font-weight: 700; font-size: .92rem; color: var(--soft); }
+  .secure { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; font-weight: 700; font-size: .92rem; color: var(--muted); }
+
+  /* Cabeçalho de seção (parte escura) */
+  .sec { position: relative; padding: 110px 0; }
+  .sec-alt { background: var(--bg-2); }
+  .sec-head { text-align: center; max-width: 46rem; margin: 0 auto 54px; }
+  .label { display: inline-block; font-family: var(--mono); font-size: .78rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--yellow); margin-bottom: 14px; }
+  .label::before { content: "// "; color: #6b74b8; }
+  .sec-head h2 { font-family: "Bagel Fat One"; font-weight: 400; font-size: clamp(2rem, 4.6vw, 3.3rem); line-height: 1.08; color: var(--white); }
+  .sec-head h2 em { font-style: normal; color: var(--yellow); }
+  .sec-head p { color: var(--muted); font-size: 1.12rem; font-weight: 600; margin-top: 14px; }
+  .panel { background: var(--panel); border: 1.5px solid var(--line); border-radius: 22px; }
 
   /* ===== Estúdio do topo ===== */
   .studio {
-    position: relative; overflow: hidden; color: var(--white); padding-bottom: 90px;
+    position: relative; overflow: hidden; padding-bottom: 90px;
     background:
       radial-gradient(ellipse 60% 50% at 78% 8%, rgba(124,92,255,.45), transparent 70%),
       radial-gradient(ellipse 45% 40% at 8% 30%, rgba(255,138,61,.22), transparent 70%),
-      #0c0f24;
+      var(--bg);
   }
   .studio::after {
     content: ""; position: absolute; left: -20%; right: -20%; bottom: 0; height: 46%; pointer-events: none;
@@ -70,164 +82,138 @@
     transform: perspective(520px) rotateX(62deg); transform-origin: bottom;
     -webkit-mask-image: linear-gradient(transparent, #000 70%); mask-image: linear-gradient(transparent, #000 70%);
   }
-
   header { position: relative; z-index: 3; padding: 18px 0; }
   header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .brand { display: flex; align-items: center; gap: 10px; background: var(--white); border: 3px solid var(--ink); border-radius: 999px; padding: 5px 16px 5px 5px; font-weight: 900; text-decoration: none; color: var(--ink); box-shadow: 0 4px 0 var(--ink); }
   .brand img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: 50% 42%; }
-  .hdr-tag { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .8rem; color: #aeb6e8; border: 1px solid #2f3774; border-radius: 999px; padding: 6px 12px; }
+  .hdr-tag { font-family: var(--mono); font-size: .8rem; color: var(--muted); border: 1px solid #2f3774; border-radius: 999px; padding: 6px 12px; }
 
   .hero { position: relative; z-index: 2; padding: 34px 0 0; }
   .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+  .hero-grid > * { min-width: 0; }
   .pro-tag { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: .9rem; letter-spacing: .4px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 7px 14px; margin-bottom: 20px; }
-  .pro-tag i { width: 9px; height: 9px; border-radius: 50%; background: var(--grass-1); box-shadow: 0 0 0 4px rgba(116,201,79,.25); animation: pulse 1.6s ease-in-out infinite; }
+  .pro-tag i { width: 9px; height: 9px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(116,201,79,.25); animation: pulse 1.6s ease-in-out infinite; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(116,201,79,0); } }
   .hero h1 { font-size: clamp(2.4rem, 4.6vw, 4rem); margin-bottom: 22px; }
   .hero .lead { font-size: clamp(1.08rem, 1.8vw, 1.28rem); font-weight: 600; color: #d6dbf6; max-width: 34rem; margin-bottom: 26px; }
   .hero .lead b { font-weight: 900; color: var(--white); }
   .pipeline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-weight: 800; font-size: .9rem; }
-  .pipeline span { background: #1a2050; border: 1px solid #2f3774; border-radius: 10px; padding: 6px 11px; }
+  .pipeline span { background: var(--panel-2); border: 1px solid #2f3774; border-radius: 10px; padding: 6px 11px; }
   .pipeline b { color: var(--yellow); font-weight: 900; }
   .pipeline span:last-child { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
 
   /* Janela do estúdio */
-  .win { position: relative; background: #141a3c; border: 2px solid #2c356e; border-radius: 22px; overflow: hidden; box-shadow: 0 36px 70px rgba(0,0,0,.55), 0 0 60px rgba(124,92,255,.25); }
-  .win-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; background: #10153a; border-bottom: 1px solid #2c356e; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .78rem; color: #aeb6e8; }
-  .win-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+  .win { position: relative; background: #141a3c; border: 2px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 36px 70px rgba(0,0,0,.55), 0 0 60px rgba(124,92,255,.25); }
+  .win-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; background: #10153a; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: .78rem; color: var(--muted); }
+  .win-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; flex: none; }
   .win-bar i:nth-child(2) { background: #febc2e; } .win-bar i:nth-child(3) { background: #28c840; }
-  .win-bar span { margin-left: 8px; flex: 1; }
-  .win-bar em { font-style: normal; color: #ff6b6b; font-weight: 700; }
+  .win-bar span { margin-left: 8px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .win-bar em { font-style: normal; color: #ff6b6b; font-weight: 700; flex: none; }
   .win-body { display: grid; grid-template-columns: 1fr 150px; }
-  .viewport { position: relative; height: 380px; overflow: hidden; background: radial-gradient(ellipse at 50% 40%, #2a3478, #11163a 75%); }
+  .viewport { position: relative; height: 400px; overflow: hidden; background: radial-gradient(ellipse at 50% 40%, #2a3478, #11163a 75%); }
   .viewport::before { content: ""; position: absolute; left: -30%; right: -30%; bottom: -10px; height: 55%; background: linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px) 0 0 / 34px 34px, linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px) 0 0 / 34px 34px; transform: perspective(300px) rotateX(60deg); transform-origin: bottom; }
-  .viewport .cam { position: absolute; top: 12px; left: 14px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .72rem; color: #aeb6e8; z-index: 2; }
+  .viewport .cam { position: absolute; top: 12px; left: 14px; font-family: var(--mono); font-size: .72rem; color: var(--muted); z-index: 2; }
   .gizmo { position: absolute; right: 12px; top: 10px; width: 46px; height: 46px; z-index: 2; }
-  .viewport .phone { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -48%); width: 176px; z-index: 1; box-shadow: 0 0 0 2px #ffc93c, 0 26px 40px rgba(0,0,0,.45); }
-  .viewport .sel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -48%); width: 196px; aspect-ratio: 9 / 16.1; border: 1.5px dashed rgba(255,201,60,.8); border-radius: 30px; z-index: 0; }
-  .side { border-left: 1px solid #2c356e; padding: 12px; font-size: .82rem; }
-  .side b { display: block; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .7rem; font-weight: 700; color: #8f98d6; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .screen { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%); width: 190px; aspect-ratio: 9 / 16; background: #000; border-radius: 26px; padding: 6px; z-index: 1; box-shadow: 0 0 0 2px var(--yellow), 0 26px 40px rgba(0,0,0,.45); }
+  .screen video { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+  .screen .made { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); white-space: nowrap; background: var(--green); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px; padding: 3px 12px; font-weight: 900; font-size: .8rem; }
+  .side { border-left: 1px solid var(--line); padding: 12px; font-size: .82rem; }
+  .side b { display: block; font-family: var(--mono); font-size: .7rem; font-weight: 700; color: #8f98d6; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
   .side ul { list-style: none; display: grid; gap: 7px; }
-  .side li { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #dfe3fb; background: #1a2050; border-radius: 8px; padding: 6px 8px; }
-  .side li::before { content: "✓"; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 5px; background: var(--grass-1); color: var(--ink); font-size: .7rem; font-weight: 900; }
-  .win-foot { border-top: 1px solid #2c356e; padding: 12px 14px; display: grid; gap: 10px; }
-  .prompt { display: flex; align-items: center; gap: 10px; background: #0d1233; border: 1px solid #2f3774; border-radius: 12px; padding: 9px 12px; font-size: .88rem; }
-  .prompt > b { flex: none; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .72rem; color: #8f98d6; text-transform: uppercase; letter-spacing: 1px; }
+  .side li { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #dfe3fb; background: var(--panel-2); border-radius: 8px; padding: 6px 8px; }
+  .side li::before { content: "✓"; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 5px; background: var(--green); color: var(--ink); font-size: .7rem; font-weight: 900; }
+  .win-foot { border-top: 1px solid var(--line); padding: 12px 14px; display: grid; gap: 10px; }
+  .win-foot > * { min-width: 0; }
+  .prompt { display: flex; align-items: center; gap: 10px; background: #0d1233; border: 1px solid #2f3774; border-radius: 12px; padding: 9px 9px 9px 12px; font-size: .88rem; }
+  .prompt > b { flex: none; font-family: var(--mono); font-size: .72rem; color: #8f98d6; text-transform: uppercase; letter-spacing: 1px; }
   .prompt .blur { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; filter: blur(4.5px); color: #dfe3fb; user-select: none; }
-  .prompt .key { flex: none; display: inline-flex; align-items: center; gap: 5px; background: var(--yellow); color: var(--ink); border-radius: 8px; padding: 3px 9px; font-weight: 900; font-size: .78rem; }
-  .prompt .key svg { width: 13px; height: 13px; }
-  .render { display: flex; align-items: center; gap: 12px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .76rem; color: #aeb6e8; }
+  .key { flex: none; display: inline-flex; align-items: center; gap: 6px; background: var(--yellow); color: var(--ink); border: 2px solid var(--ink); border-radius: 9px; padding: 5px 10px; font-weight: 900; font-size: .8rem; text-decoration: none; box-shadow: 0 3px 0 var(--ink); transition: transform .12s ease; }
+  .key:hover { transform: translateY(-2px); }
+  .key svg { width: 14px; height: 14px; }
+  .render { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: .76rem; color: var(--muted); }
   .render .bar { flex: 1; height: 8px; border-radius: 99px; background: #0d1233; overflow: hidden; }
   .render .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--orange), var(--yellow)); }
-  .render .done { color: var(--grass-1); font-weight: 700; }
+  .render .done { color: var(--green); font-weight: 700; }
+  .win-note { margin-top: 18px; text-align: center; font-weight: 700; color: #d6dbf6; }
+  .win-note b { color: var(--yellow); font-weight: 900; }
 
-  .teach-wrap { position: relative; z-index: 2; margin-top: 56px; }
+  .teach-wrap { position: relative; z-index: 2; margin-top: 60px; }
   .teach { max-width: 860px; margin: 0 auto; background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 26px; padding: 22px 26px; box-shadow: 0 7px 0 var(--ink); }
   .teach-title { display: block; text-align: center; font-family: "Bagel Fat One"; font-size: 1.3rem; margin-bottom: 14px; }
   .teach ol { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .teach li { display: flex; gap: 12px; align-items: flex-start; }
   .teach i { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: "Bagel Fat One"; background: var(--yellow); border: 3px solid var(--ink); }
-  .teach li:nth-child(2) i { background: var(--grass-1); }
+  .teach li:nth-child(2) i { background: var(--green); }
   .teach li:nth-child(3) i { background: var(--orange); }
   .teach p { font-weight: 600; font-size: 1rem; padding-top: 3px; }
   .teach b { font-weight: 900; }
 
   /* ===== Por que agora ===== */
-  .now { position: relative; background: var(--yellow); border-block: 5px solid var(--ink); padding: 90px 0 0; }
-  .now .wrap { position: relative; z-index: 2; }
+  .now { position: relative; background: var(--yellow); color: var(--ink); border-block: 5px solid var(--ink); padding: 90px 0; }
   .now .head { text-align: center; max-width: 52rem; margin: 0 auto 46px; }
-  .now .kicker { background: #e5483b; }
+  .now .kicker { background: var(--red); }
   .now h2 { font-size: clamp(2.2rem, 5.4vw, 4rem); margin-bottom: 18px; }
   .now .head p { font-size: 1.2rem; font-weight: 700; }
   .now .head p b { font-weight: 900; background: var(--white); padding: 0 6px; border-radius: 6px; }
-  .road { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; position: relative; }
+  .road { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .stop { background: var(--white); border: 4px solid var(--ink); border-radius: 24px; padding: 24px 22px; box-shadow: 0 7px 0 var(--ink); }
   .stop em { display: inline-block; font-style: normal; font-weight: 900; font-size: .8rem; letter-spacing: 1px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; border: 3px solid var(--ink); margin-bottom: 12px; }
-  .stop:nth-child(1) em { background: var(--grass-1); }
+  .stop:nth-child(1) em { background: var(--green); }
   .stop:nth-child(2) em { background: var(--orange); }
-  .stop:nth-child(3) em { background: #e5483b; color: var(--white); }
+  .stop:nth-child(3) em { background: var(--red); color: var(--white); }
   .stop h3 { font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.45rem; line-height: 1.1; margin-bottom: 8px; }
   .stop p { color: var(--soft); font-weight: 600; }
   .stop:nth-child(3) { background: #fff1ef; }
   .now-cta { text-align: center; margin-top: 44px; }
   .now-cta .btn { background: var(--ink); color: var(--yellow); box-shadow: 0 7px 0 #000; }
   .now-cta small { display: block; margin-top: 14px; font-weight: 800; font-size: 1rem; }
-  .now .hills { position: relative; display: block; width: 100%; height: 150px; margin-top: 70px; }
 
-  .phone { position: relative; width: 190px; aspect-ratio: 9 / 15; background: var(--ink); border-radius: 30px; padding: 7px; box-shadow: 0 18px 30px rgba(20,60,20,.3); }
-  .phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
-  .lineup .phone:nth-child(1) { transform: rotate(-6deg) translateY(10px); }
-  .lineup .phone:nth-child(2) { width: 220px; }
-  .lineup .phone:nth-child(3) { transform: rotate(6deg) translateY(10px); }
-  .bubble {
-    position: absolute; top: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap; z-index: 2;
-    background: var(--white); border: 3px solid var(--ink); border-radius: 16px; padding: 6px 14px;
-    font-family: "Bagel Fat One"; font-size: 1.15rem; box-shadow: 0 4px 0 var(--ink);
-  }
-  .bubble::after { content: ""; position: absolute; left: 50%; bottom: -11px; width: 16px; height: 16px; background: var(--white); border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transform: translateX(-50%) rotate(45deg); }
-  .bubble.hot { background: var(--yellow); }
-  .bubble.hot::after { background: var(--yellow); }
-
-  /* ===== Grama: os números ===== */
-  .grass { background: var(--grass-2); color: var(--white); padding: 20px 0 100px; position: relative; }
-  .board { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 70px; }
-  .score { background: var(--grass-3); border: 4px solid var(--ink); border-radius: 24px; padding: 22px; text-align: center; box-shadow: 0 7px 0 var(--ink); }
-  .score b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1; color: var(--yellow); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; }
-  .score span { font-weight: 800; font-size: 1rem; }
-  .proof-shot { display: grid; grid-template-columns: 300px 1fr; gap: 26px; align-items: center; max-width: 760px; margin: -30px auto 80px; background: var(--grass-3); border: 4px solid var(--ink); border-radius: 26px; padding: 18px; box-shadow: 0 7px 0 var(--ink); }
-  .proof-shot img { width: 100%; border-radius: 16px; border: 3px solid var(--ink); transform: rotate(-2deg); }
-  .proof-shot figcaption { font-weight: 700; font-size: 1.05rem; }
-  .proof-shot b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.6rem; color: var(--yellow); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; margin-bottom: 6px; }
-  .grass h2 { text-align: center; font-size: clamp(2rem, 5vw, 3.6rem); margin-bottom: 14px; }
-  .grass .sub { text-align: center; font-weight: 700; font-size: 1.12rem; max-width: 36rem; margin: 0 auto 70px; opacity: .95; }
-  .profile {
-    display: flex; align-items: center; gap: 14px; max-width: 560px; margin: 0 auto 56px;
-    background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 999px; padding: 8px 22px 8px 8px; box-shadow: 0 6px 0 var(--ink);
-  }
-  .row + .profile { margin-top: 90px; }
-  .profile img { flex: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 3px solid var(--ink); }
-  .profile div { flex: 1; line-height: 1.2; }
-  .profile b { display: block; font-weight: 900; font-size: 1.1rem; }
-  .profile span { font-weight: 700; color: var(--soft); font-size: .92rem; }
-  .profile em { flex: none; font-style: normal; font-family: "Bagel Fat One"; font-size: 1.15rem; background: var(--yellow); border: 3px solid var(--ink); border-radius: 999px; padding: 4px 12px; }
-  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 200px)); justify-content: center; gap: 20px; position: relative; }
-  .row .phone { width: 100%; }
-  .row .phone:nth-child(odd) { transform: rotate(-2deg); }
-  .row .phone:nth-child(even) { transform: rotate(2deg) translateY(18px); }
-  .row .bubble { font-size: 1rem; color: var(--ink); }
-  .note-real { text-align: center; font-weight: 700; font-size: .9rem; margin-top: 54px; opacity: .85; }
+  /* ===== Resultados ===== */
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 26px; }
+  .stat { padding: 26px 22px; text-align: center; }
+  .stat b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: clamp(2rem, 3.8vw, 3rem); line-height: 1; color: var(--yellow); margin-bottom: 8px; white-space: nowrap; }
+  .stat span { color: var(--muted); font-weight: 700; }
+  .proof { display: grid; grid-template-columns: 340px 1fr; overflow: hidden; margin-bottom: 70px; }
+  .proof img { width: 100%; height: 100%; object-fit: cover; border-right: 1.5px solid var(--line); }
+  .proof div { padding: 30px 32px; align-self: center; }
+  .proof h3 { font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.7rem; line-height: 1.1; color: var(--white); margin-bottom: 10px; }
+  .proof p { color: var(--muted); font-weight: 600; font-size: 1.05rem; }
+  .proof p b { color: var(--white); }
+  .channel { padding: 22px; margin-bottom: 22px; }
+  .ch-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .ch-head img { flex: none; width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: 50% 30%; border: 2px solid var(--yellow); }
+  .ch-head div { flex: 1; min-width: 0; line-height: 1.25; }
+  .ch-head b { display: block; font-weight: 900; font-size: 1.15rem; color: var(--white); }
+  .ch-head span { color: var(--muted); font-weight: 600; font-size: .95rem; }
+  .ch-head em { flex: none; font-style: normal; font-weight: 900; font-size: .85rem; background: var(--yellow); color: var(--ink); border-radius: 999px; padding: 5px 12px; }
+  .reel { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .reel img { width: 100%; aspect-ratio: 9 / 13; object-fit: cover; border-radius: 14px; border: 1.5px solid var(--line); transition: transform .2s ease; }
+  .reel img:hover { transform: translateY(-4px); }
+  .note-real { text-align: center; color: var(--muted); font-weight: 600; font-size: .9rem; margin-top: 18px; }
 
   /* ===== O que você vai conseguir ===== */
-  .gets { padding: 110px 0; background: var(--cloud); }
-  .gets .head { text-align: center; margin-bottom: 50px; }
   .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-  .card { background: var(--white); border: 4px solid var(--ink); border-radius: 26px; padding: 26px 22px; box-shadow: 0 7px 0 var(--ink); }
-  .card .ico { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; border: 3px solid var(--ink); margin-bottom: 16px; }
-  .card .ico img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
-  .card h3 { font-size: 1.22rem; font-weight: 900; line-height: 1.2; margin-bottom: 6px; }
-  .card p { color: var(--soft); font-weight: 600; }
-  .card:nth-child(1) { background: #fff4d1; }
-  .card:nth-child(2) { background: #e3f7d8; }
-  .card:nth-child(3) { background: #ffe4ef; }
-  .card:nth-child(4) { background: #e1f0ff; }
+  .card { padding: 26px 22px; }
+  .card .ico { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 18px; color: var(--ink); }
+  .card .ico svg { width: 26px; height: 26px; }
+  .card:nth-child(1) .ico { background: var(--yellow); }
+  .card:nth-child(2) .ico { background: var(--green); }
+  .card:nth-child(3) .ico { background: var(--orange); }
+  .card:nth-child(4) .ico { background: var(--pink); }
+  .card h3 { font-size: 1.2rem; font-weight: 900; line-height: 1.25; color: var(--white); margin-bottom: 6px; }
+  .card p { color: var(--muted); font-weight: 600; }
 
-  /* ===== O segredo (noite) ===== */
-  .night { position: relative; background: var(--night); color: var(--white); padding: 110px 0; overflow: hidden; }
-  .night::before { content: ""; position: absolute; inset: 0; background:
-      radial-gradient(2px 2px at 10% 20%, #fff, transparent), radial-gradient(2px 2px at 30% 70%, #fff, transparent),
-      radial-gradient(1.5px 1.5px at 55% 15%, #fff, transparent), radial-gradient(2px 2px at 75% 55%, #fff, transparent),
-      radial-gradient(1.5px 1.5px at 90% 25%, #fff, transparent), radial-gradient(1.5px 1.5px at 20% 90%, #fff, transparent),
-      radial-gradient(2px 2px at 65% 85%, #fff, transparent), radial-gradient(1.5px 1.5px at 45% 45%, #fff, transparent);
-    opacity: .7; }
-  .moon { position: absolute; top: 60px; right: 9%; width: 90px; height: 90px; border-radius: 50%; box-shadow: -18px 10px 0 0 #ffe9a6; }
-  .night .wrap { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .night h2 { font-size: clamp(2.2rem, 5vw, 3.8rem); margin-bottom: 20px; }
-  .night p { font-size: 1.15rem; font-weight: 600; opacity: .9; max-width: 30rem; }
-  .vault { position: relative; background: #1d2a63; border: 4px solid var(--ink); border-radius: 28px; padding: 28px; box-shadow: 0 9px 0 #070b1f; }
-  .vault .line { height: 16px; border-radius: 8px; background: rgba(255,255,255,.22); margin-bottom: 14px; filter: blur(3px); }
+  /* ===== O segredo ===== */
+  .secret .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .secret h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin-bottom: 20px; }
+  .secret p { font-size: 1.15rem; font-weight: 600; color: var(--muted); max-width: 30rem; }
+  .secret .kicker { background: var(--yellow); color: var(--ink); }
+  .vault { position: relative; padding: 28px; }
+  .vault .line { height: 16px; border-radius: 8px; background: rgba(255,255,255,.18); margin-bottom: 14px; filter: blur(3px); }
   .vault .line:nth-child(2) { width: 82%; } .vault .line:nth-child(3) { width: 94%; } .vault .line:nth-child(4) { width: 60%; }
   .vault .line:nth-child(5) { width: 88%; } .vault .line:nth-child(6) { width: 70%; } .vault .line:nth-child(7) { width: 50%; }
   .vault .tab { display: flex; gap: 8px; margin-bottom: 22px; }
-  .vault .tab i { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,.25); }
+  .vault .tab i { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,.22); }
   .lock {
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-4deg);
     background: var(--yellow); color: var(--ink); border: 4px solid var(--ink); border-radius: 20px; padding: 14px 22px;
@@ -235,27 +221,27 @@
     text-decoration: none; transition: transform .12s ease, box-shadow .12s ease;
   }
   .lock:hover { transform: translate(-50%, -54%) rotate(-4deg); box-shadow: 0 9px 0 var(--ink); }
-  .lock:active { transform: translate(-50%, -46%) rotate(-4deg); box-shadow: 0 2px 0 var(--ink); }
-  .lock:focus-visible { outline: 3px solid #2f6bff; outline-offset: 4px; }
   .lock svg { width: 30px; height: 30px; }
 
-  /* ===== É pra você ===== */
-  .who { padding: 110px 0; background: linear-gradient(180deg, var(--sky-2), var(--cloud)); }
-  .who .head { text-align: center; margin-bottom: 46px; }
-  .talks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 30px; max-width: 920px; margin-inline: auto; }
-  .talk { display: flex; align-items: flex-end; gap: 12px; }
-  .talk img { flex: none; width: 66px; height: 66px; border-radius: 50%; object-fit: cover; object-position: 50% 42%; border: 3px solid var(--ink); background: var(--white); }
-  .talk p { position: relative; background: var(--white); border: 3px solid var(--ink); border-radius: 22px 22px 22px 6px; padding: 14px 18px; font-weight: 800; font-size: 1.05rem; box-shadow: 0 5px 0 var(--ink); }
+  /* ===== Pra quem é ===== */
+  .fit { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; max-width: 980px; margin-inline: auto; }
+  .fit > div { padding: 28px 30px; }
+  .fit h3 { font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.5rem; margin-bottom: 16px; }
+  .fit .yes h3 { color: var(--green); }
+  .fit .no h3 { color: var(--muted); }
+  .fit ul { list-style: none; display: grid; gap: 13px; }
+  .fit li { display: flex; gap: 12px; font-weight: 700; font-size: 1.05rem; }
+  .fit li::before { flex: none; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-weight: 900; font-size: .85rem; }
+  .fit .yes li::before { content: "✓"; background: var(--green); color: var(--ink); }
+  .fit .no li { color: var(--muted); }
+  .fit .no li::before { content: "✕"; background: var(--panel-2); color: var(--muted); }
 
   /* ===== Crachá do preço ===== */
-  .price-zone { padding: 40px 0 120px; background: var(--cloud); text-align: center; }
+  .price-zone { text-align: center; padding-top: 70px; background: radial-gradient(ellipse 50% 60% at 50% 30%, rgba(255,201,60,.18), transparent 70%), var(--bg); }
   .lanyard { width: 34px; height: 110px; margin: 0 auto; background: repeating-linear-gradient(180deg, var(--orange) 0 18px, #e5732a 18px 36px); border-inline: 3px solid var(--ink); }
-  .badge {
-    position: relative; max-width: 440px; margin: -6px auto 0; background: var(--white); border: 5px solid var(--ink); border-radius: 28px;
-    overflow: hidden; box-shadow: 0 12px 0 var(--ink); transform: rotate(-1.5deg);
-  }
-  .badge::before { content: ""; position: absolute; top: 14px; left: 50%; width: 70px; height: 14px; transform: translateX(-50%); border-radius: 999px; background: var(--cloud); border: 3px solid var(--ink); }
-  .badge-top { background: #e5483b; color: var(--white); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; padding: 46px 20px 14px; font-size: .95rem; }
+  .badge { position: relative; max-width: 440px; margin: -6px auto 0; background: var(--white); color: var(--ink); border: 5px solid var(--ink); border-radius: 28px; overflow: hidden; box-shadow: 0 12px 0 #000, 0 30px 80px rgba(255,201,60,.25); transform: rotate(-1.5deg); }
+  .badge::before { content: ""; position: absolute; top: 14px; left: 50%; width: 70px; height: 14px; transform: translateX(-50%); border-radius: 999px; background: var(--bg); border: 3px solid var(--ink); }
+  .badge-top { background: var(--red); color: var(--white); font-weight: 900; letter-spacing: 2px; text-transform: uppercase; padding: 46px 20px 14px; font-size: .95rem; }
   .badge-body { padding: 26px 26px 34px; }
   .badge-body .who-is { font-family: "Bagel Fat One"; font-size: 1.6rem; line-height: 1.1; margin-bottom: 6px; }
   .badge-body .small { font-weight: 700; color: var(--soft); margin-bottom: 18px; }
@@ -266,80 +252,59 @@
   .per-day b { font-weight: 900; background: #e3f7d8; padding: 0 6px; border-radius: 6px; }
   .badge .btn { width: 100%; }
   .badge-foot { font-weight: 700; color: var(--soft); font-size: .9rem; margin-top: 16px; }
-  .warn {
-    display: flex; gap: 16px; align-items: flex-start; text-align: left; max-width: 620px; margin: 60px auto 0;
-    background: #fff1d6; border: 4px solid var(--ink); border-left-width: 12px; border-left-color: #e5483b; border-radius: 20px;
-    padding: 20px 24px; box-shadow: 0 6px 0 var(--ink);
-  }
-  .warn svg { flex: none; width: 34px; height: 34px; color: #e5483b; margin-top: 2px; }
-  .warn b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.3rem; margin-bottom: 4px; }
-  .warn p { font-weight: 600; font-size: 1.02rem; }
-  .warn strong { font-weight: 900; }
+  .warn { display: flex; gap: 16px; align-items: flex-start; text-align: left; max-width: 620px; margin: 56px auto 0; background: #2a1a24; border: 1.5px solid #5a2f3a; border-left: 8px solid var(--red); border-radius: 18px; padding: 20px 24px; }
+  .warn svg { flex: none; width: 32px; height: 32px; color: #ff8a80; margin-top: 2px; }
+  .warn b { display: block; font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.25rem; color: var(--white); margin-bottom: 4px; }
+  .warn p { font-weight: 600; color: #f1d6da; }
+  .warn strong { font-weight: 900; color: var(--white); }
 
-  /* ===== Dúvidas em conversa ===== */
-  .faq-zone { padding: 40px 0 110px; background: var(--cloud); }
-  .faq-zone .head { text-align: center; margin-bottom: 40px; }
-  .chat { max-width: 760px; margin-inline: auto; display: grid; gap: 16px; }
-  details summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; }
-  details summary::-webkit-details-marker { display: none; }
-  details summary img { flex: none; width: 46px; height: 46px; border-radius: 50%; object-fit: cover; object-position: 50% 42%; border: 3px solid var(--ink); }
-  details summary span { background: var(--white); border: 3px solid var(--ink); border-radius: 20px 20px 20px 6px; padding: 12px 18px; font-weight: 900; font-size: 1.06rem; box-shadow: 0 4px 0 var(--ink); }
-  details summary span::after { content: " ▾"; color: var(--orange); }
-  details[open] summary span::after { content: " ▴"; }
-  details .ans { display: flex; justify-content: flex-end; margin-top: 12px; }
-  details .ans p { max-width: 520px; background: var(--yellow); border: 3px solid var(--ink); border-radius: 20px 20px 6px 20px; padding: 12px 18px; font-weight: 700; box-shadow: 0 4px 0 var(--ink); }
+  /* ===== Dúvidas ===== */
+  .faq { max-width: 760px; margin-inline: auto; display: grid; gap: 12px; }
+  .faq details { padding: 0 22px; }
+  .faq details[open] { border-color: var(--yellow); }
+  .faq summary { list-style: none; cursor: pointer; padding: 20px 0; font-weight: 900; font-size: 1.08rem; color: var(--white); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-family: "Bagel Fat One"; font-size: 1.2rem; color: var(--ink); background: var(--yellow); transition: transform .2s ease; }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq p { color: var(--muted); font-weight: 600; padding-bottom: 20px; }
 
-  /* ===== Fim de tarde ===== */
-  .sunset { position: relative; background: linear-gradient(180deg, #ffd27a, #ff9a5a); text-align: center; padding: 110px 0 230px; overflow: hidden; }
-  .sunset .sun2 { position: absolute; left: 50%; bottom: 20px; width: 260px; height: 260px; transform: translateX(-50%); border-radius: 50%; background: #fff0b8; opacity: .8; }
-  .sunset .wrap { position: relative; z-index: 2; }
-  .sunset h2 { font-size: clamp(2.3rem, 6vw, 4.6rem); margin-bottom: 18px; }
-  .sunset p { font-weight: 800; font-size: 1.2rem; margin-bottom: 30px; }
-  .sunset .secure { color: var(--ink); }
-  .sunset .hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 200px; z-index: 1; }
-  footer { background: var(--grass-3); color: var(--white); text-align: center; padding: 26px 0 34px; font-weight: 700; font-size: .92rem; }
+  /* ===== Final ===== */
+  .final { text-align: center; padding: 120px 0 130px; background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(124,92,255,.4), transparent 70%), var(--bg-2); }
+  .final h2 { font-size: clamp(2.3rem, 6vw, 4.4rem); margin-bottom: 18px; }
+  .final p { font-weight: 700; font-size: 1.2rem; color: #d6dbf6; margin-bottom: 32px; }
+  footer { border-top: 1px solid var(--line); color: var(--muted); text-align: center; padding: 26px 0 34px; font-weight: 600; font-size: .9rem; }
 
   @media (max-width: 960px) {
-    .cards { grid-template-columns: repeat(2, 1fr); }
-    .night .wrap { grid-template-columns: 1fr; }
-    .row { row-gap: 60px; }
-    .talks { grid-template-columns: 1fr; }
-    .phone { width: 160px; }
-    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-grid, .secret .wrap { grid-template-columns: 1fr; gap: 40px; }
     .teach ol, .road { grid-template-columns: 1fr; }
     .win-body { grid-template-columns: 1fr; }
-    .side { border-left: 0; border-top: 1px solid #2c356e; }
+    .side { border-left: 0; border-top: 1px solid var(--line); }
     .side ul { display: flex; flex-wrap: wrap; }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .proof { grid-template-columns: 1fr; }
+    .proof img { max-height: 380px; border-right: 0; border-bottom: 1.5px solid var(--line); }
+    .fit { grid-template-columns: 1fr; }
   }
   @media (max-width: 560px) {
     .cap { -webkit-text-stroke: 5px var(--ink); text-shadow: 0 4px 0 var(--ink); }
-    .brand-cta { display: none; }
     .hdr-tag { display: none; }
     .hero { padding-top: 14px; }
-    .phone { border-radius: 20px; padding: 5px; }
-    .phone img { border-radius: 16px; }
-    .bubble { font-size: .85rem; padding: 4px 9px; top: -26px; border-width: 2px; }
-    .viewport { height: 330px; }
-    .viewport .phone { width: 150px; }
-    .viewport .sel { width: 168px; }
-    .now { padding-top: 70px; }
-    .now .hills { height: 90px; margin-top: 50px; }
-    .board { grid-template-columns: 1fr; gap: 14px; }
-    .proof-shot { grid-template-columns: 1fr; margin-top: -40px; text-align: center; }
-    .proof-shot img { max-width: 280px; margin-inline: auto; }
-    .row { grid-template-columns: repeat(2, 1fr); gap: 50px 18px; }
-    .row .phone { width: 100%; }
-    .row .phone:nth-child(5) { grid-column: span 2; width: 50%; justify-self: center; }
-    .profile { padding-right: 12px; gap: 10px; }
-    .profile img { width: 46px; height: 46px; }
-    .profile b { font-size: 1rem; }
-    .profile em { font-size: .9rem; padding: 3px 9px; }
+    .viewport { height: 360px; }
+    .screen { width: 168px; }
+    .prompt .key span { display: none; }
+    .sec { padding: 80px 0; }
+    .now { padding: 70px 0; }
+    .stats { grid-template-columns: 1fr; gap: 12px; }
+    .reel { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 42%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; }
+    .reel img { scroll-snap-align: start; }
+    .ch-head { flex-wrap: wrap; }
+    .ch-head div { flex-basis: calc(100% - 70px); }
+    .ch-head em { margin-left: 66px; }
     .cards { grid-template-columns: 1fr; }
-    .gets, .night, .who { padding: 80px 0; }
     .lock { font-size: 1rem; padding: 10px 14px; }
-    .btn { width: 100%; font-size: 1.15rem; padding: 16px 18px; }
-    .sunset { padding: 80px 0 190px; }
-    .sunset .sun2 { width: 180px; height: 180px; }
+    .btn { width: 100%; font-size: 1.15rem; padding: 16px 18px; flex-wrap: wrap; white-space: nowrap; }
+    .fit > div, .proof div { padding: 22px; }
+    .final { padding: 90px 0 100px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .pro-tag i { animation: none; }
@@ -368,24 +333,29 @@
         </div>
       </div>
 
-      <div class="win" aria-label="Estúdio montando um vídeo">
-        <div class="win-bar"><i></i><i></i><i></i><span>estudio_3d · cena_01.mp4</span><em>● RENDER</em></div>
-        <div class="win-body">
-          <div class="viewport">
-            <span class="cam">Câmera 1 · 9:16</span>
-            <svg class="gizmo" viewBox="0 0 46 46" aria-hidden="true"><line x1="23" y1="23" x2="42" y2="23" stroke="#ff5f57" stroke-width="3" stroke-linecap="round"/><line x1="23" y1="23" x2="23" y2="4" stroke="#28c840" stroke-width="3" stroke-linecap="round"/><line x1="23" y1="23" x2="9" y2="37" stroke="#4f8bff" stroke-width="3" stroke-linecap="round"/><circle cx="23" cy="23" r="3.5" fill="#fff"/></svg>
-            <div class="sel" aria-hidden="true"></div>
-            <div class="phone"><img src="img/hist-urna.jpg" alt="Vídeo do Lula em cima da urna, feito com IA"></div>
+      <div>
+        <div class="win" aria-label="Estúdio montando um vídeo">
+          <div class="win-bar"><i></i><i></i><i></i><span>estudio_3d · carta_verde.mp4</span><em>● RENDER</em></div>
+          <div class="win-body">
+            <div class="viewport">
+              <span class="cam">Câmera 1 · 9:16</span>
+              <svg class="gizmo" viewBox="0 0 46 46" aria-hidden="true"><line x1="23" y1="23" x2="42" y2="23" stroke="#ff5f57" stroke-width="3" stroke-linecap="round"/><line x1="23" y1="23" x2="23" y2="4" stroke="#28c840" stroke-width="3" stroke-linecap="round"/><line x1="23" y1="23" x2="9" y2="37" stroke="#4f8bff" stroke-width="3" stroke-linecap="round"/><circle cx="23" cy="23" r="3.5" fill="#fff"/></svg>
+              <div class="screen">
+                <video src="video/demo-10s.mp4" poster="video/demo-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Trecho de um vídeo 3D feito com o Claude"></video>
+                <span class="made">feito em 10 min</span>
+              </div>
+            </div>
+            <div class="side">
+              <b>Camadas</b>
+              <ul><li>Roteiro</li><li>Personagem</li><li>Cenário</li><li>Câmera</li><li>Voz</li><li>Legenda</li></ul>
+            </div>
           </div>
-          <div class="side">
-            <b>Camadas</b>
-            <ul><li>Roteiro</li><li>Personagem</li><li>Cenário</li><li>Câmera</li><li>Voz</li><li>Legenda</li></ul>
+          <div class="win-foot">
+            <div class="prompt"><b>Prompt</b><span class="blur" aria-hidden="true">crie um vídeo 3D vertical: o garoto de moletom verde no corredor da escola, câmera</span><a class="key" href="https://pay.hotmart.com/I108272319V" data-hotmart><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Desbloquear<span>&nbsp;o prompt</span></a></div>
+            <div class="render"><span id="rtext">Renderizando 0%</span><span class="bar"><i id="rbar"></i></span></div>
           </div>
         </div>
-        <div class="win-foot">
-          <div class="prompt"><b>Prompt</b><span class="blur" aria-hidden="true">crie um vídeo vertical com o personagem em cima da urna, câmera</span><span class="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>no curso</span></div>
-          <div class="render"><span id="rtext">Renderizando 0%</span><span class="bar"><i id="rbar"></i></span></div>
-        </div>
+        <p class="win-note">Esse vídeo foi feito em <b>10 minutos com o Claude</b>, usando os prompts que estão na minha aula.</p>
       </div>
     </div>
 
@@ -419,82 +389,98 @@
       <small>Cada dia esperando é um vídeo a menos no ar.</small>
     </div>
   </div>
-  <svg class="hills" viewBox="0 0 1440 150" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 70 C 220 10 420 30 620 70 C 820 110 1040 10 1240 40 C 1340 55 1400 65 1440 70 V150 H0 Z" fill="#8fd66a"/>
-    <path d="M0 110 C 260 70 520 90 760 110 C 1000 130 1220 80 1440 100 V150 H0 Z" fill="#74c94f"/>
-    <path d="M0 140 C 360 125 1080 125 1440 140 V150 H0 Z" fill="#5aae3a"/>
-  </svg>
 </section>
 
 <main>
-  <section class="grass">
+  <section class="sec">
     <div class="wrap">
-      <div class="board">
-        <div class="score"><b>+30 milhões</b><span>de visualizações em 90 dias</span></div>
-        <div class="score"><b>1,3 milhão</b><span>de views num dia só</span></div>
-        <div class="score"><b>2</b><span>perfis, o mesmo jeito de fazer</span></div>
+      <div class="sec-head">
+        <span class="label">Resultados</span>
+        <h2>Não é sorte de <em>um perfil só</em></h2>
+        <p>Dois perfis meus, com temas diferentes, feitos do mesmo jeito que eu ensino.</p>
       </div>
 
-      <figure class="proof-shot">
+      <div class="stats">
+        <div class="stat panel"><b>+30 milhões</b><span>de visualizações em 90 dias</span></div>
+        <div class="stat panel"><b>1,3 milhão</b><span>de views num dia só</span></div>
+        <div class="stat panel"><b>2 perfis</b><span>com o mesmo jeito de fazer</span></div>
+      </div>
+
+      <figure class="proof panel">
         <img src="img/painel-90d.jpg" alt="Painel de visualizações dos últimos 90 dias: 30.264.422 visualizações" loading="lazy">
-        <figcaption><b>Print do meu painel</b>30.264.422 visualizações nos últimos 90 dias, contadas até 31/10/2026.</figcaption>
+        <div>
+          <h3>Print do meu painel</h3>
+          <p><b>30.264.422 visualizações</b> nos últimos 90 dias, contadas até 31/10/2026. Nenhum desses vídeos foi desenhado à mão ou passou por programa de edição.</p>
+        </div>
       </figure>
 
-      <h2 class="cap">Não é sorte de <span class="y">um perfil só</span></h2>
-      <p class="sub">Dois perfis meus, com temas diferentes e vídeos com milhares de visualizações. Nenhum vídeo foi desenhado à mão e nenhum passou por programa de edição.</p>
+      <div class="channel panel">
+        <div class="ch-head">
+          <img src="img/hist-urna.jpg" alt="">
+          <div><b>Perfil de histórias</b><span>políticos em desenho, na praça</span></div>
+          <em>milhares de views</em>
+        </div>
+        <div class="reel">
+          <img src="img/hist-urna.jpg" alt="Vídeo do Lula em cima da urna" loading="lazy">
+          <img src="img/hist-urna2.jpg" alt="Vídeo do Vorcaro com a urna" loading="lazy">
+          <img src="img/hist-moto.jpg" alt="Vídeo do Vorcaro empinando a moto" loading="lazy">
+          <img src="img/hist-mercado.jpg" alt="Vídeo do Lula no mercado" loading="lazy">
+        </div>
+      </div>
 
-      <div class="profile">
-        <img src="img/hist-urna.jpg" alt="">
-        <div><b>Perfil de histórias</b><span>políticos em desenho, na praça</span></div>
-        <em>milhares de views</em>
-      </div>
-      <div class="row">
-        <div class="phone"><span class="bubble hot">milhares de views</span><img src="img/hist-urna.jpg" alt="Vídeo do Lula em cima da urna" loading="lazy"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/hist-urna2.jpg" alt="Vídeo do Vorcaro com a urna" loading="lazy"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/hist-moto.jpg" alt="Vídeo do Vorcaro empinando a moto" loading="lazy"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/hist-mercado.jpg" alt="Vídeo do Lula no mercado" loading="lazy"></div>
-      </div>
-
-      <div class="profile">
-        <img src="img/papagaio.jpg" alt="">
-        <div><b>Você é um Animal</b><span>bichos que falam</span></div>
-        <em>milhares de views</em>
-      </div>
-      <div class="row">
-        <div class="phone"><span class="bubble hot">milhares de views</span><img src="img/peru.jpg" alt="Vídeo do peru" loading="lazy"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/urso.jpg" alt="Vídeo do urso e o mel cru" loading="lazy"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/cachorra.jpg" alt="Vídeo da cachorra segurança" loading="lazy"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/perereca.jpg" alt="Vídeo da perereca" loading="lazy"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/papagaio.jpg" alt="Vídeo do papagaio" loading="lazy"></div>
+      <div class="channel panel">
+        <div class="ch-head">
+          <img src="img/papagaio.jpg" alt="">
+          <div><b>Você é um Animal</b><span>bichos que falam</span></div>
+          <em>milhares de views</em>
+        </div>
+        <div class="reel">
+          <img src="img/peru.jpg" alt="Vídeo do peru" loading="lazy">
+          <img src="img/urso.jpg" alt="Vídeo do urso e o mel cru" loading="lazy">
+          <img src="img/cachorra.jpg" alt="Vídeo da cachorra segurança" loading="lazy">
+          <img src="img/perereca.jpg" alt="Vídeo da perereca" loading="lazy">
+          <img src="img/papagaio.jpg" alt="Vídeo do papagaio" loading="lazy">
+        </div>
       </div>
       <p class="note-real">O total de 90 dias vem do painel acima, contado até 31/10/2026.</p>
     </div>
   </section>
 
-  <section class="gets">
+  <section class="sec sec-alt">
     <div class="wrap">
-      <div class="head">
-        <span class="kicker">Depois do curso</span>
-        <h2 class="title">O que você vai conseguir fazer</h2>
+      <div class="sec-head">
+        <span class="label">Depois do curso</span>
+        <h2>O que você vai <em>conseguir fazer</em></h2>
       </div>
       <div class="cards">
-        <div class="card"><div class="ico"><img src="img/urso.jpg" alt=""></div><h3>Seu próprio personagem</h3><p>Um bicho, uma pessoa, o que quiser, animado e com voz.</p></div>
-        <div class="card"><div class="ico"><img src="img/perereca.jpg" alt=""></div><h3>Vídeo completo, do zero</h3><p>Cena, câmera, legenda e som, sem abrir timeline.</p></div>
-        <div class="card"><div class="ico"><img src="img/cachorra.jpg" alt=""></div><h3>Formato que já provou que funciona</h3><p>Você parte do que já viralizou, não de um palpite.</p></div>
-        <div class="card"><div class="ico"><img src="img/peru.jpg" alt=""></div><h3>Postar todo dia</h3><p>Um vídeo novo sem gastar a noite inteira editando.</p></div>
+        <div class="card panel">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
+          <h3>Seu próprio personagem 3D</h3><p>Um bicho, uma pessoa, o que quiser, animado e com voz.</p>
+        </div>
+        <div class="card panel">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/></svg></div>
+          <h3>Vídeo completo, do zero</h3><p>Cena, câmera, legenda e som, sem abrir timeline.</p>
+        </div>
+        <div class="card panel">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+          <h3>Formato que já funciona</h3><p>Você parte do que já viralizou, não de um palpite.</p>
+        </div>
+        <div class="card panel">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Postar todo dia</h3><p>Um vídeo novo sem gastar a noite inteira editando.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="night">
-    <div class="moon" aria-hidden="true"></div>
+  <section class="sec secret">
     <div class="wrap">
       <div>
-        <span class="kicker" style="background:var(--yellow);color:var(--ink)">O segredo</span>
+        <span class="kicker">O segredo</span>
         <h2 class="cap">O passo a passo <span class="y">não tá aqui</span>.</h2>
         <p>Como eu escolho o vídeo, os prompts que eu uso e por que funciona ficam dentro do curso. Aqui você só vê o resultado.</p>
       </div>
-      <div class="vault" aria-label="Conteúdo bloqueado">
+      <div class="vault panel" aria-label="Conteúdo bloqueado">
         <div class="tab"><i></i><i></i><i></i></div>
         <div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div>
         <a class="lock" href="https://pay.hotmart.com/I108272319V" data-hotmart>
@@ -505,22 +491,35 @@
     </div>
   </section>
 
-  <section class="who">
+  <section class="sec sec-alt">
     <div class="wrap">
-      <div class="head">
-        <span class="kicker">Pra quem é</span>
-        <h2 class="title">É pra você se...</h2>
+      <div class="sec-head">
+        <span class="label">Pra quem é</span>
+        <h2>Esse curso é <em>pra você</em>?</h2>
       </div>
-      <div class="talks">
-        <div class="talk"><img src="img/perereca.jpg" alt=""><p>Quer um canal de animação, mas não sabe desenhar.</p></div>
-        <div class="talk"><img src="img/urso.jpg" alt=""><p>Já tentou editar e desistiu porque demora demais.</p></div>
-        <div class="talk"><img src="img/cachorra.jpg" alt=""><p>Quer postar todo dia sem virar a noite.</p></div>
-        <div class="talk"><img src="img/peru.jpg" alt=""><p>Tem curiosidade sobre IA e quer usar de verdade.</p></div>
+      <div class="fit">
+        <div class="yes panel">
+          <h3>É pra você se...</h3>
+          <ul>
+            <li>Quer um canal de animação, mas não sabe desenhar</li>
+            <li>Já tentou editar e desistiu porque demora demais</li>
+            <li>Quer postar todo dia sem virar a noite</li>
+            <li>Tem curiosidade sobre IA e quer usar de verdade</li>
+          </ul>
+        </div>
+        <div class="no panel">
+          <h3>Não é pra você se...</h3>
+          <ul>
+            <li>Procura um botão que posta sozinho</li>
+            <li>Não quer testar, errar e postar de novo</li>
+            <li>Não vai ter uma IA paga (Claude ou ChatGPT)</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="price-zone" id="preco">
+  <section class="sec price-zone" id="preco">
     <div class="wrap">
       <div class="lanyard" aria-hidden="true"></div>
       <div class="badge">
@@ -545,41 +544,40 @@
     </div>
   </section>
 
-  <section class="faq-zone">
+  <section class="sec sec-alt">
     <div class="wrap">
-      <div class="head">
-        <span class="kicker">Dúvidas</span>
-        <h2 class="title">Os bichos perguntaram</h2>
+      <div class="sec-head">
+        <span class="label">Dúvidas</span>
+        <h2>Perguntas <em>frequentes</em></h2>
       </div>
-      <div class="chat">
-        <details>
-          <summary><img src="img/perereca.jpg" alt=""><span>Precisa pagar IA?</span></summary>
-          <div class="ans"><p>Sim. Você precisa de uma ferramenta de IA, como o Claude ou o ChatGPT, e a assinatura dela não vem com o curso. No curso eu mostro qual escolher.</p></div>
+      <div class="faq">
+        <details class="panel">
+          <summary>Precisa pagar IA?</summary>
+          <p>Sim. Você precisa de uma ferramenta de IA, como o Claude ou o ChatGPT, e a assinatura dela não vem com o curso. No curso eu mostro qual escolher.</p>
         </details>
-        <details>
-          <summary><img src="img/urso.jpg" alt=""><span>Precisa saber programar?</span></summary>
-          <div class="ans"><p>Não. Você escreve em português e eu mostro cada passo na tela.</p></div>
+        <details class="panel">
+          <summary>Precisa saber programar?</summary>
+          <p>Não. Você escreve em português e eu mostro cada passo na tela.</p>
         </details>
-        <details>
-          <summary><img src="img/cachorra.jpg" alt=""><span>Dá pra fazer pelo celular?</span></summary>
-          <div class="ans"><p>Não. O vídeo é feito no computador (Mac ou Windows). O celular é só pra postar.</p></div>
+        <details class="panel">
+          <summary>Dá pra fazer pelo celular?</summary>
+          <p>Não. O vídeo é feito no computador (Mac ou Windows). O celular é só pra postar.</p>
         </details>
-        <details>
-          <summary><img src="img/peru.jpg" alt=""><span>Como recebo o acesso?</span></summary>
-          <div class="ans"><p>Logo depois do pagamento a Hotmart manda o acesso pro seu e-mail.</p></div>
+        <details class="panel">
+          <summary>Como recebo o acesso?</summary>
+          <p>Logo depois do pagamento a Hotmart manda o acesso pro seu e-mail.</p>
         </details>
-        <details>
-          <summary><img src="img/papagaio.jpg" alt=""><span>E se eu não gostar?</span></summary>
-          <div class="ans"><p>Você tem 7 dias de garantia e pede o reembolso direto na Hotmart.</p></div>
+        <details class="panel">
+          <summary>E se eu não gostar?</summary>
+          <p>Você tem 7 dias de garantia e pede o reembolso direto na Hotmart.</p>
         </details>
       </div>
     </div>
   </section>
 
-  <section class="sunset">
-    <div class="sun2" aria-hidden="true"></div>
+  <section class="final">
     <div class="wrap">
-      <h2 class="cap">Seu bicho pode ser <span class="p">o&nbsp;próximo</span>.</h2>
+      <h2 class="cap">Seu próximo viral <span class="y">começa hoje</span>.</h2>
       <p>Daqui a duas semanas você vai querer ter começado hoje.</p>
       <a class="btn" href="https://pay.hotmart.com/I108272319V" data-hotmart>Quero entrar <span class="tagp">R$&nbsp;29,90</span></a>
       <div class="secure">
@@ -587,14 +585,10 @@
         Acesso na hora · 7 dias de garantia
       </div>
     </div>
-    <svg class="hills" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 90 C 240 20 480 40 720 90 C 960 140 1200 30 1440 70 V200 H0 Z" fill="#5aae3a"/>
-      <path d="M0 150 C 360 110 1080 110 1440 150 V200 H0 Z" fill="#47922c"/>
-    </svg>
   </section>
 </main>
 
-<footer>Viral com Claude · da série Você é um Animal</footer>
+<footer>Viral com Claude · estúdio de vídeos 3D com IA</footer>
 
 <script>
   // Cole aqui o link de pagamento da Hotmart: todos os botões usam ele
