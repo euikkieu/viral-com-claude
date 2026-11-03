@@ -54,40 +54,105 @@
   .btn-sm { font-size: .95rem; padding: 9px 18px; border-width: 3px; box-shadow: 0 4px 0 var(--ink); }
   .secure { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 16px; font-weight: 700; font-size: .92rem; color: var(--soft); }
 
-  /* ===== Céu do topo ===== */
-  .sky { position: relative; background: linear-gradient(180deg, var(--sky-1), var(--sky-2) 78%); overflow: hidden; }
-  .sun { position: absolute; top: 70px; right: 8%; width: 130px; height: 130px; border-radius: 50%; background: #ffe27a; box-shadow: 0 0 0 22px rgba(255,226,122,.35), 0 0 0 48px rgba(255,226,122,.15); }
-  .cloud { position: absolute; height: 46px; background: var(--white); border-radius: 999px; opacity: .95; animation: drift linear infinite; }
-  .cloud::before, .cloud::after { content: ""; position: absolute; background: var(--white); border-radius: 50%; }
-  .cloud::before { width: 56%; height: 150%; left: 14%; bottom: 30%; }
-  .cloud::after { width: 38%; height: 120%; right: 12%; bottom: 36%; }
-  .c1 { width: 170px; top: 120px; left: -200px; animation-duration: 70s; }
-  .c2 { width: 120px; top: 230px; left: -200px; animation-duration: 95s; animation-delay: -40s; }
-  .c3 { width: 210px; top: 60px; left: -260px; animation-duration: 120s; animation-delay: -75s; }
-  @keyframes drift { to { transform: translateX(calc(100vw + 300px)); } }
+  /* ===== Estúdio do topo ===== */
+  .studio {
+    position: relative; overflow: hidden; color: var(--white); padding-bottom: 90px;
+    background:
+      radial-gradient(ellipse 60% 50% at 78% 8%, rgba(124,92,255,.45), transparent 70%),
+      radial-gradient(ellipse 45% 40% at 8% 30%, rgba(255,138,61,.22), transparent 70%),
+      #0c0f24;
+  }
+  .studio::after {
+    content: ""; position: absolute; left: -20%; right: -20%; bottom: 0; height: 46%; pointer-events: none;
+    background:
+      linear-gradient(rgba(124,200,255,.22) 1.5px, transparent 1.5px) 0 0 / 64px 64px,
+      linear-gradient(90deg, rgba(124,200,255,.22) 1.5px, transparent 1.5px) 0 0 / 64px 64px;
+    transform: perspective(520px) rotateX(62deg); transform-origin: bottom;
+    -webkit-mask-image: linear-gradient(transparent, #000 70%); mask-image: linear-gradient(transparent, #000 70%);
+  }
 
   header { position: relative; z-index: 3; padding: 18px 0; }
   header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .brand { display: flex; align-items: center; gap: 10px; background: var(--white); border: 3px solid var(--ink); border-radius: 999px; padding: 5px 16px 5px 5px; font-weight: 900; text-decoration: none; color: var(--ink); box-shadow: 0 4px 0 var(--ink); }
   .brand img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: 50% 42%; }
+  .hdr-tag { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .8rem; color: #aeb6e8; border: 1px solid #2f3774; border-radius: 999px; padding: 6px 12px; }
 
-  .hero { position: relative; z-index: 2; text-align: center; padding: 40px 0 0; }
-  .hero h1 { font-size: clamp(2.6rem, 7.6vw, 6rem); margin-bottom: 22px; }
-  .hero .lead { font-size: clamp(1.1rem, 2vw, 1.3rem); font-weight: 600; max-width: 38rem; margin: 0 auto 32px; }
-  .hero .lead b { font-weight: 900; }
-  .teach { max-width: 640px; margin: 0 auto; text-align: left; background: var(--white); border: 4px solid var(--ink); border-radius: 26px; padding: 20px 24px; box-shadow: 0 7px 0 var(--ink); }
-  .teach-title { display: block; text-align: center; font-family: "Bagel Fat One"; font-size: 1.3rem; margin-bottom: 12px; }
-  .teach ol { list-style: none; display: grid; gap: 12px; }
+  .hero { position: relative; z-index: 2; padding: 34px 0 0; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+  .pro-tag { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: .9rem; letter-spacing: .4px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 7px 14px; margin-bottom: 20px; }
+  .pro-tag i { width: 9px; height: 9px; border-radius: 50%; background: var(--grass-1); box-shadow: 0 0 0 4px rgba(116,201,79,.25); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(116,201,79,0); } }
+  .hero h1 { font-size: clamp(2.4rem, 4.6vw, 4rem); margin-bottom: 22px; }
+  .hero .lead { font-size: clamp(1.08rem, 1.8vw, 1.28rem); font-weight: 600; color: #d6dbf6; max-width: 34rem; margin-bottom: 26px; }
+  .hero .lead b { font-weight: 900; color: var(--white); }
+  .pipeline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-weight: 800; font-size: .9rem; }
+  .pipeline span { background: #1a2050; border: 1px solid #2f3774; border-radius: 10px; padding: 6px 11px; }
+  .pipeline b { color: var(--yellow); font-weight: 900; }
+  .pipeline span:last-child { background: var(--yellow); color: var(--ink); border-color: var(--yellow); }
+
+  /* Janela do estúdio */
+  .win { position: relative; background: #141a3c; border: 2px solid #2c356e; border-radius: 22px; overflow: hidden; box-shadow: 0 36px 70px rgba(0,0,0,.55), 0 0 60px rgba(124,92,255,.25); }
+  .win-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; background: #10153a; border-bottom: 1px solid #2c356e; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .78rem; color: #aeb6e8; }
+  .win-bar i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+  .win-bar i:nth-child(2) { background: #febc2e; } .win-bar i:nth-child(3) { background: #28c840; }
+  .win-bar span { margin-left: 8px; flex: 1; }
+  .win-bar em { font-style: normal; color: #ff6b6b; font-weight: 700; }
+  .win-body { display: grid; grid-template-columns: 1fr 150px; }
+  .viewport { position: relative; height: 380px; overflow: hidden; background: radial-gradient(ellipse at 50% 40%, #2a3478, #11163a 75%); }
+  .viewport::before { content: ""; position: absolute; left: -30%; right: -30%; bottom: -10px; height: 55%; background: linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px) 0 0 / 34px 34px, linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px) 0 0 / 34px 34px; transform: perspective(300px) rotateX(60deg); transform-origin: bottom; }
+  .viewport .cam { position: absolute; top: 12px; left: 14px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .72rem; color: #aeb6e8; z-index: 2; }
+  .gizmo { position: absolute; right: 12px; top: 10px; width: 46px; height: 46px; z-index: 2; }
+  .viewport .phone { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -48%); width: 176px; z-index: 1; box-shadow: 0 0 0 2px #ffc93c, 0 26px 40px rgba(0,0,0,.45); }
+  .viewport .sel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -48%); width: 196px; aspect-ratio: 9 / 16.1; border: 1.5px dashed rgba(255,201,60,.8); border-radius: 30px; z-index: 0; }
+  .side { border-left: 1px solid #2c356e; padding: 12px; font-size: .82rem; }
+  .side b { display: block; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .7rem; font-weight: 700; color: #8f98d6; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .side ul { list-style: none; display: grid; gap: 7px; }
+  .side li { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #dfe3fb; background: #1a2050; border-radius: 8px; padding: 6px 8px; }
+  .side li::before { content: "✓"; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 5px; background: var(--grass-1); color: var(--ink); font-size: .7rem; font-weight: 900; }
+  .win-foot { border-top: 1px solid #2c356e; padding: 12px 14px; display: grid; gap: 10px; }
+  .prompt { display: flex; align-items: center; gap: 10px; background: #0d1233; border: 1px solid #2f3774; border-radius: 12px; padding: 9px 12px; font-size: .88rem; }
+  .prompt > b { flex: none; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .72rem; color: #8f98d6; text-transform: uppercase; letter-spacing: 1px; }
+  .prompt .blur { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; filter: blur(4.5px); color: #dfe3fb; user-select: none; }
+  .prompt .key { flex: none; display: inline-flex; align-items: center; gap: 5px; background: var(--yellow); color: var(--ink); border-radius: 8px; padding: 3px 9px; font-weight: 900; font-size: .78rem; }
+  .prompt .key svg { width: 13px; height: 13px; }
+  .render { display: flex; align-items: center; gap: 12px; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .76rem; color: #aeb6e8; }
+  .render .bar { flex: 1; height: 8px; border-radius: 99px; background: #0d1233; overflow: hidden; }
+  .render .bar i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+  .render .done { color: var(--grass-1); font-weight: 700; }
+
+  .teach-wrap { position: relative; z-index: 2; margin-top: 56px; }
+  .teach { max-width: 860px; margin: 0 auto; background: var(--white); color: var(--ink); border: 4px solid var(--ink); border-radius: 26px; padding: 22px 26px; box-shadow: 0 7px 0 var(--ink); }
+  .teach-title { display: block; text-align: center; font-family: "Bagel Fat One"; font-size: 1.3rem; margin-bottom: 14px; }
+  .teach ol { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .teach li { display: flex; gap: 12px; align-items: flex-start; }
   .teach i { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: "Bagel Fat One"; background: var(--yellow); border: 3px solid var(--ink); }
   .teach li:nth-child(2) i { background: var(--grass-1); }
   .teach li:nth-child(3) i { background: var(--orange); }
-  .teach p { font-weight: 600; font-size: 1.02rem; padding-top: 3px; }
+  .teach p { font-weight: 600; font-size: 1rem; padding-top: 3px; }
   .teach b { font-weight: 900; }
 
-  .stage { position: relative; height: 470px; margin-top: 46px; }
-  .hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 230px; }
-  .lineup { position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%); display: flex; align-items: flex-end; gap: 22px; z-index: 2; }
+  /* ===== Por que agora ===== */
+  .now { position: relative; background: var(--yellow); border-block: 5px solid var(--ink); padding: 90px 0 0; }
+  .now .wrap { position: relative; z-index: 2; }
+  .now .head { text-align: center; max-width: 52rem; margin: 0 auto 46px; }
+  .now .kicker { background: #e5483b; }
+  .now h2 { font-size: clamp(2.2rem, 5.4vw, 4rem); margin-bottom: 18px; }
+  .now .head p { font-size: 1.2rem; font-weight: 700; }
+  .now .head p b { font-weight: 900; background: var(--white); padding: 0 6px; border-radius: 6px; }
+  .road { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; position: relative; }
+  .stop { background: var(--white); border: 4px solid var(--ink); border-radius: 24px; padding: 24px 22px; box-shadow: 0 7px 0 var(--ink); }
+  .stop em { display: inline-block; font-style: normal; font-weight: 900; font-size: .8rem; letter-spacing: 1px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; border: 3px solid var(--ink); margin-bottom: 12px; }
+  .stop:nth-child(1) em { background: var(--grass-1); }
+  .stop:nth-child(2) em { background: var(--orange); }
+  .stop:nth-child(3) em { background: #e5483b; color: var(--white); }
+  .stop h3 { font-family: "Bagel Fat One"; font-weight: 400; font-size: 1.45rem; line-height: 1.1; margin-bottom: 8px; }
+  .stop p { color: var(--soft); font-weight: 600; }
+  .stop:nth-child(3) { background: #fff1ef; }
+  .now-cta { text-align: center; margin-top: 44px; }
+  .now-cta .btn { background: var(--ink); color: var(--yellow); box-shadow: 0 7px 0 #000; }
+  .now-cta small { display: block; margin-top: 14px; font-weight: 800; font-size: 1rem; }
+  .now .hills { position: relative; display: block; width: 100%; height: 150px; margin-top: 70px; }
+
   .phone { position: relative; width: 190px; aspect-ratio: 9 / 15; background: var(--ink); border-radius: 30px; padding: 7px; box-shadow: 0 18px 30px rgba(20,60,20,.3); }
   .phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
   .lineup .phone:nth-child(1) { transform: rotate(-6deg) translateY(10px); }
@@ -197,6 +262,8 @@
   .money { display: flex; justify-content: center; align-items: flex-start; gap: 6px; margin-bottom: 26px; }
   .money small { font-family: "Bagel Fat One"; font-size: 1.8rem; margin-top: 14px; }
   .money b { font-family: "Bagel Fat One"; font-weight: 400; font-size: clamp(4.4rem, 14vw, 6.4rem); line-height: 1; color: var(--yellow); -webkit-text-stroke: 6px var(--ink); paint-order: stroke fill; text-shadow: 0 6px 0 var(--ink); }
+  .per-day { font-weight: 800; margin: -12px 0 22px; }
+  .per-day b { font-weight: 900; background: #e3f7d8; padding: 0 6px; border-radius: 6px; }
   .badge .btn { width: 100%; }
   .badge-foot { font-weight: 700; color: var(--soft); font-size: .9rem; margin-top: 16px; }
   .warn {
@@ -229,7 +296,7 @@
   .sunset h2 { font-size: clamp(2.3rem, 6vw, 4.6rem); margin-bottom: 18px; }
   .sunset p { font-weight: 800; font-size: 1.2rem; margin-bottom: 30px; }
   .sunset .secure { color: var(--ink); }
-  .sunset .hills { height: 200px; z-index: 1; }
+  .sunset .hills { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 200px; z-index: 1; }
   footer { background: var(--grass-3); color: var(--white); text-align: center; padding: 26px 0 34px; font-weight: 700; font-size: .92rem; }
 
   @media (max-width: 960px) {
@@ -238,21 +305,25 @@
     .row { row-gap: 60px; }
     .talks { grid-template-columns: 1fr; }
     .phone { width: 160px; }
-    .lineup .phone:nth-child(2) { width: 190px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .teach ol, .road { grid-template-columns: 1fr; }
+    .win-body { grid-template-columns: 1fr; }
+    .side { border-left: 0; border-top: 1px solid #2c356e; }
+    .side ul { display: flex; flex-wrap: wrap; }
   }
   @media (max-width: 560px) {
     .cap { -webkit-text-stroke: 5px var(--ink); text-shadow: 0 4px 0 var(--ink); }
     .brand-cta { display: none; }
-    .sun { width: 80px; height: 80px; top: 80px; right: 4%; }
-    .hero { padding-top: 20px; }
-    .stage { height: 360px; margin-top: 50px; }
-    .hills { height: 170px; }
-    .lineup { gap: 8px; bottom: 44px; }
-    .phone { width: 110px; border-radius: 20px; padding: 5px; }
+    .hdr-tag { display: none; }
+    .hero { padding-top: 14px; }
+    .phone { border-radius: 20px; padding: 5px; }
     .phone img { border-radius: 16px; }
-    .lineup .phone:nth-child(2) { width: 132px; }
     .bubble { font-size: .85rem; padding: 4px 9px; top: -26px; border-width: 2px; }
-    .lineup .phone:not(:nth-child(2)) .bubble { white-space: normal; width: 84px; text-align: center; line-height: 1.05; top: -40px; font-size: .78rem; }
+    .viewport { height: 330px; }
+    .viewport .phone { width: 150px; }
+    .viewport .sel { width: 168px; }
+    .now { padding-top: 70px; }
+    .now .hills { height: 90px; margin-top: 50px; }
     .board { grid-template-columns: 1fr; gap: 14px; }
     .proof-shot { grid-template-columns: 1fr; margin-top: -40px; text-align: center; }
     .proof-shot img { max-width: 280px; margin-inline: auto; }
@@ -271,30 +342,54 @@
     .sunset .sun2 { width: 180px; height: 180px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cloud { animation: none; }
-    .c1 { left: 6%; } .c2 { left: 60%; } .c3 { left: 30%; }
+    .pro-tag i { animation: none; }
     html { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
 
-<div class="sky">
-  <div class="sun" aria-hidden="true"></div>
-  <div class="cloud c1" aria-hidden="true"></div>
-  <div class="cloud c2" aria-hidden="true"></div>
-  <div class="cloud c3" aria-hidden="true"></div>
-
+<div class="studio">
   <header>
     <div class="wrap">
       <a class="brand" href="#"><img src="img/papagaio.jpg" alt="">Viral com Claude</a>
+      <span class="hdr-tag">estúdio de vídeos 3D com IA</span>
     </div>
   </header>
 
   <section class="hero">
-    <div class="wrap">
-      <h1 class="cap">Refaça o <span class="y">viral</span>.<br>Viralize <span class="o">de novo</span>.</h1>
-      <p class="lead">Vídeos animados em 2D e 3D feitos com <b>Claude Code e IA</b>, sem saber desenhar e sem passar a noite editando.</p>
+    <div class="wrap hero-grid">
+      <div>
+        <span class="pro-tag"><i></i>Criador de vídeos 3D com IA e prompts</span>
+        <h1 class="cap">Refaça o <span class="y">viral</span>.<br>Viralize <span class="o">de novo</span>.</h1>
+        <p class="lead">Eu crio vídeos animados em 2D e 3D só com <b>prompts no Claude Code</b>, sem desenhar e sem programa de edição. Agora eu te mostro como fazer os seus.</p>
+        <div class="pipeline" aria-label="Do prompt ao vídeo">
+          <span>Prompt</span><b>→</b><span>Personagem 3D</span><b>→</b><span>Animação</span><b>→</b><span>Voz e legenda</span><b>→</b><span>Vídeo pronto</span>
+        </div>
+      </div>
+
+      <div class="win" aria-label="Estúdio montando um vídeo">
+        <div class="win-bar"><i></i><i></i><i></i><span>estudio_3d · cena_01.mp4</span><em>● RENDER</em></div>
+        <div class="win-body">
+          <div class="viewport">
+            <span class="cam">Câmera 1 · 9:16</span>
+            <svg class="gizmo" viewBox="0 0 46 46" aria-hidden="true"><line x1="23" y1="23" x2="42" y2="23" stroke="#ff5f57" stroke-width="3" stroke-linecap="round"/><line x1="23" y1="23" x2="23" y2="4" stroke="#28c840" stroke-width="3" stroke-linecap="round"/><line x1="23" y1="23" x2="9" y2="37" stroke="#4f8bff" stroke-width="3" stroke-linecap="round"/><circle cx="23" cy="23" r="3.5" fill="#fff"/></svg>
+            <div class="sel" aria-hidden="true"></div>
+            <div class="phone"><img src="img/hist-urna.jpg" alt="Vídeo do Lula em cima da urna, feito com IA"></div>
+          </div>
+          <div class="side">
+            <b>Camadas</b>
+            <ul><li>Roteiro</li><li>Personagem</li><li>Cenário</li><li>Câmera</li><li>Voz</li><li>Legenda</li></ul>
+          </div>
+        </div>
+        <div class="win-foot">
+          <div class="prompt"><b>Prompt</b><span class="blur" aria-hidden="true">crie um vídeo vertical com o personagem em cima da urna, câmera</span><span class="key"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>no curso</span></div>
+          <div class="render"><span id="rtext">Renderizando 0%</span><span class="bar"><i id="rbar"></i></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap teach-wrap">
       <div class="teach">
         <span class="teach-title">Como eu te ensino</span>
         <ol>
@@ -304,21 +399,32 @@
         </ol>
       </div>
     </div>
-
-    <div class="stage">
-      <svg class="hills" viewBox="0 0 1440 230" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 120 C 220 40 420 60 620 110 C 820 160 1040 40 1240 70 C 1340 85 1400 100 1440 110 V230 H0 Z" fill="#8fd66a"/>
-        <path d="M0 170 C 260 110 520 130 760 160 C 1000 190 1220 120 1440 140 V230 H0 Z" fill="#74c94f"/>
-        <path d="M0 210 C 360 185 1080 185 1440 210 V230 H0 Z" fill="#5aae3a"/>
-      </svg>
-      <div class="lineup">
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/urso.jpg" alt="Vídeo do urso vendendo mel cru"></div>
-        <div class="phone"><span class="bubble hot">milhares de views</span><img src="img/hist-urna.jpg" alt="Vídeo do Lula em cima da urna"></div>
-        <div class="phone"><span class="bubble">milhares de views</span><img src="img/peru.jpg" alt="Vídeo do peru"></div>
-      </div>
-    </div>
   </section>
 </div>
+
+<section class="now">
+  <div class="wrap">
+    <div class="head">
+      <span class="kicker">Por que agora</span>
+      <h2 class="cap">Esse formato tá <span class="o">no começo</span>.<br>Não vai ficar assim.</h2>
+      <p>Hoje pouca gente sabe fazer vídeo animado com IA, e o algoritmo está entregando pra quem faz. É o que eu vejo nos meus perfis. <b>Cada semana que passa, mais gente descobre</b> e o espaço no feed fica mais disputado.</p>
+    </div>
+    <div class="road">
+      <div class="stop"><em>Hoje</em><h3>Você entra na frente</h3><p>Pouca gente fazendo. Seu vídeo aparece porque ainda é novidade.</p></div>
+      <div class="stop"><em>Daqui 1 semana</em><h3>Mais gente copiando</h3><p>O formato começa a se espalhar e cada vídeo disputa mais atenção.</p></div>
+      <div class="stop"><em>Daqui 2 semanas</em><h3>Pode não sobrar espaço</h3><p>Quem chegou antes já tem público. Quem deixou pra depois começa atrás.</p></div>
+    </div>
+    <div class="now-cta">
+      <a class="btn" href="#preco">Quero começar hoje ↓</a>
+      <small>Cada dia esperando é um vídeo a menos no ar.</small>
+    </div>
+  </div>
+  <svg class="hills" viewBox="0 0 1440 150" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 70 C 220 10 420 30 620 70 C 820 110 1040 10 1240 40 C 1340 55 1400 65 1440 70 V150 H0 Z" fill="#8fd66a"/>
+    <path d="M0 110 C 260 70 520 90 760 110 C 1000 130 1220 80 1440 100 V150 H0 Z" fill="#74c94f"/>
+    <path d="M0 140 C 360 125 1080 125 1440 140 V150 H0 Z" fill="#5aae3a"/>
+  </svg>
+</section>
 
 <main>
   <section class="grass">
@@ -386,7 +492,7 @@
       <div>
         <span class="kicker" style="background:var(--yellow);color:var(--ink)">O segredo</span>
         <h2 class="cap">O passo a passo <span class="y">não tá aqui</span>.</h2>
-        <p>Como eu escolho o vídeo, o que eu peço pra IA e por que funciona fica dentro do curso. Aqui você só vê o resultado.</p>
+        <p>Como eu escolho o vídeo, os prompts que eu uso e por que funciona ficam dentro do curso. Aqui você só vê o resultado.</p>
       </div>
       <div class="vault" aria-label="Conteúdo bloqueado">
         <div class="tab"><i></i><i></i><i></i></div>
@@ -423,6 +529,7 @@
           <div class="who-is">Viral com Claude</div>
           <div class="small">Curso completo · pagamento único</div>
           <div class="money"><small>R$</small><b>29,90</b></div>
+          <div class="per-day">Menos de <b>R$&nbsp;1 por dia</b> no primeiro mês</div>
           <a class="btn" href="https://pay.hotmart.com/I108272319V" data-hotmart>Pegar meu crachá</a>
           <div class="badge-foot">Pix ou cartão pela Hotmart · 7 dias de garantia</div>
         </div>
@@ -473,7 +580,7 @@
     <div class="sun2" aria-hidden="true"></div>
     <div class="wrap">
       <h2 class="cap">Seu bicho pode ser <span class="p">o&nbsp;próximo</span>.</h2>
-      <p>Entra hoje e faz o seu primeiro vídeo.</p>
+      <p>Daqui a duas semanas você vai querer ter começado hoje.</p>
       <a class="btn" href="https://pay.hotmart.com/I108272319V" data-hotmart>Quero entrar <span class="tagp">R$&nbsp;29,90</span></a>
       <div class="secure">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
@@ -493,6 +600,21 @@
   // Cole aqui o link de pagamento da Hotmart: todos os botões usam ele
   const HOTMART = "https://pay.hotmart.com/I108272319V";
   document.querySelectorAll("[data-hotmart]").forEach(a => { a.href = HOTMART; a.target = "_blank"; a.rel = "noopener"; });
+
+  // Barra de render da janela do estúdio: enche, mostra "pronto" e recomeça
+  const rbar = document.getElementById("rbar"), rtext = document.getElementById("rtext");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    rbar.style.width = "100%"; rtext.textContent = "Pronto pra postar ✓"; rtext.className = "done";
+  } else {
+    let pct = 0;
+    setInterval(() => {
+      pct = pct >= 130 ? 0 : pct + 2;
+      const v = Math.min(pct, 100);
+      rbar.style.width = v + "%";
+      rtext.textContent = v < 100 ? "Renderizando " + v + "%" : "Pronto pra postar ✓";
+      rtext.className = v < 100 ? "" : "done";
+    }, 80);
+  }
 </script>
 </body>
 </html>
